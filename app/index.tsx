@@ -1,8 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { store } from '../model/redux/store';
-import { Provider } from 'react-redux';
-import { StyleSheet } from 'react-native';
-import { useEffect, useState } from 'react';
+
+import { StyleSheet, SafeAreaView } from 'react-native';
 import {
   NativeBaseProvider,
   Box,
@@ -18,35 +16,21 @@ import {
 } from 'native-base';
 import { Link } from 'expo-router';
 import { useGetMixtapeListQuery } from '../model/redux/services/mixtapeList';
-// const COLLECTION_URL =
-//   'https://archive.org/services/search/v1/scrape?fields=title,date,identifier,downloads,creator&q=collection:dj-screw-discography';
 const THUMB_URL = 'https://archive.org/services/img/';
 // ctrl-cmd-z to open menu in simulator
 
 export default function App() {
-  // const [data, setData] = useState<Mixtape[]>();
-
-  // // Fetch the list of mixtapes upon load
-  // useEffect(() => {
-  //   fetch(COLLECTION_URL)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       setData(data.items);
-  //     });
-
-  //   return () => {
-  //     // second
-  //   };
-  // }, []);
-  const { data } = useGetMixtapeListQuery('');
-  console.log(data);
+  const { data, error, isLoading } = useGetMixtapeListQuery('');
 
   return (
-    <NativeBaseProvider>
-      {/* <Box flex={1} bg="#fff" alignItems="center" justifyContent="center"> */}
-      <Box>
+    <Box safeAreaTop>
+      {error ? (
+        <Text>Oh no! Error</Text>
+      ) : isLoading ? (
+        <Text>Loading…</Text>
+      ) : data ? (
         <FlatList
-          data={data?.items}
+          data={data}
           renderItem={({ item }: { item: Mixtape }) => (
             <Link href={'/mixtape/' + item.identifier}>
               <Box
@@ -102,7 +86,7 @@ export default function App() {
           )}
           keyExtractor={(item: Mixtape) => item.identifier}
         />
-      </Box>
-    </NativeBaseProvider>
+      ) : null}
+    </Box>
   );
 }
