@@ -1,21 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { useGetMixtapeListQuery } from '../model/redux/services/mixtapeList';
+import { Link } from 'expo-router';
 import {
-  NativeBaseProvider,
+  Avatar,
   Box,
   Button,
-  Heading,
   FlatList,
+  Heading,
   HStack,
-  Avatar,
-  VStack,
+  Image,
+  NativeBaseProvider,
   Spacer,
   Text,
   View,
+  VStack,
 } from 'native-base';
-import { Link } from 'expo-router';
-import { useGetMixtapeListQuery } from '../model/redux/services/mixtapeList';
+
 const THUMB_URL = 'https://archive.org/services/img/';
 // ctrl-cmd-z to open menu in simulator
 
@@ -23,13 +22,21 @@ export default function App() {
   const { data, error, isLoading } = useGetMixtapeListQuery('');
 
   return (
-    <Box safeAreaTop>
+    <Box
+      flex={1}
+      alignItems={'center'}
+      justifyContent={'center'}
+      safeAreaTop
+      safeAreaX
+    >
       {error ? (
         <Text>Oh no! Error</Text>
       ) : isLoading ? (
         <Text>Loading…</Text>
       ) : data ? (
         <FlatList
+          // Load more on initial render so it fills the screen
+          initialNumToRender={20}
           data={data}
           renderItem={({ item }: { item: Mixtape }) => (
             <Link href={'/mixtape/' + item.identifier}>
@@ -44,12 +51,14 @@ export default function App() {
                 py="2"
               >
                 <HStack space={[2, 3]} justifyContent="space-between">
-                  <Avatar
+                  <Image
                     size="48px"
+                    alt="album artwork"
                     source={{
                       uri: THUMB_URL + item.identifier,
                     }}
                   />
+
                   <VStack>
                     <Text
                       _dark={{
@@ -57,6 +66,7 @@ export default function App() {
                       }}
                       color="coolGray.800"
                       bold
+                      width={'75%'}
                     >
                       {item.title}
                     </Text>

@@ -11,12 +11,17 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": [true]
-      }
+        "UIBackgroundModes": [
+          true
+        ]
+      },
+      "bundleIdentifier": "com.johnhamlin.screwtapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +33,11 @@
       "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "myapp"
+    "scheme": "myapp",
+    "extra": {
+      "eas": {
+        "projectId": "b22c69ef-c190-4f94-8c2b-bc4c6a9ae4d4"
+      }
+    }
   }
 }
