@@ -1,7 +1,7 @@
-# screwtapp
+# ScrewTapp
 
-<div style="text-align: center">
-  ![Logo](.github/resources/screwtapp.png)
-</div>
+<p align='center'>
+  <img src='.github/resources/screwtapp.png' alt='ScrewTapp Logo width=250 />
+</p>
 
 React Native App to Play DJ Screw Tapes on Archive.Org
