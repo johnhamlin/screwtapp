@@ -4,44 +4,34 @@
     "slug": "screwtapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "infoPlist": {
-        "UIBackgroundModes": [
-          true
-        ]
-      },
-      "bundleIdentifier": "com.johnhamlin.screwtapp"
+      "bundleIdentifier": "in.johnhamlin.screwtapp"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "in.johnhaml.screwtapp"
+      "package": "com.johnhamlin.screwtapp"
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/favicon.png"
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
     },
-    "scheme": "myapp",
-    "extra": {
-      "eas": {
-        "projectId": "b22c69ef-c190-4f94-8c2b-bc4c6a9ae4d4"
-      }
-    },
-    "plugins": [
-      "expo-router"
-    ]
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }

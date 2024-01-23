@@ -18,7 +18,9 @@
     "expo-linking": "~6.2.2",
     "expo-router": "~3.4.4",
     "expo-status-bar": "~1.11.1",
+    "expo-system-ui": "~2.9.3",
     "native-base": "^3.4.28",
+    "normalize-css-color": "^1.0.2",
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-gesture-handler": "~2.14.0",
@@ -26,8 +28,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "14.1.0",
     "react-native-web": "~0.19.6",
-    "react-redux": "^8.0.7",
-    "expo-system-ui": "~2.9.3"
+    "react-redux": "^8.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
