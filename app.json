@@ -15,14 +15,16 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "in.johnhamlin.screwtapp"
+      "bundleIdentifier": "in.johnhamlin.screwtapp",
+      "userInterfaceStyle": "automatic"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.johnhamlin.screwtapp"
+      "package": "com.johnhamlin.screwtapp",
+      "userInterfaceStyle": "automatic"
     },
     "web": {
       "bundler": "metro",
