@@ -1,14 +1,15 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
-import { View, Button, FlatList, Pressable, Text } from 'react-native';
-
-import { useGetMixtapeQuery } from '../../../model/redux/services/mixtapeList';
-import Player from '../../components/audio/Player';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
+import { FlatList, Pressable, Text } from 'react-native';
+import { Appbar, Divider, List } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Divider, List, Appbar } from 'react-native-paper';
+
+import { useGetMixtapeQuery } from '@/features/mixtapeList/mixtapeList';
+import Player from '@/features/player/Player';
+
+dayjs.extend(utc);
 
 type MixtapeListProps = {
   item: Track;

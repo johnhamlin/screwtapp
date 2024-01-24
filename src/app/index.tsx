@@ -1,11 +1,12 @@
-import { useGetMixtapeListQuery } from '../model/redux/services/mixtapeList';
-import { Link } from 'expo-router';
-import { FlatList } from 'react-native';
-import { Divider, List, Text, Button } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image } from 'react-native';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { Link } from 'expo-router';
+import { FlatList, Image } from 'react-native';
+import { Button, Divider, List, Text } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { useGetMixtapeListQuery } from '@/features/mixtapeList/mixtapeList';
+
 dayjs.extend(utc);
 
 const THUMB_URL = 'https://archive.org/services/img/';
