@@ -1,12 +1,13 @@
-import { Provider as ReduxProvider } from 'react-redux';
-import { store } from '../model/redux/store';
 import { Slot, useNavigationContainerRef } from 'expo-router';
-import { PaperProvider, MD3LightTheme, MD3DarkTheme } from 'react-native-paper';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider as ReduxProvider } from 'react-redux';
+
+import { store } from '@/store';
 import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
 import * as Sentry from '@sentry/react-native';
-import { useEffect } from 'react';
 
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();

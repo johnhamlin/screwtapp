@@ -1,8 +1,8 @@
 import { Audio } from 'expo-av';
 import { Sound } from 'expo-av/build/Audio';
-import { View, Button } from 'react-native';
-import { Text } from 'react-native-paper';
 import { useEffect, useState } from 'react';
+import { Button, View } from 'react-native';
+import { Text } from 'react-native-paper';
 
 function Player({ dir, file }: PlayerProps) {
   const [sound, setSound] = useState<Sound>();

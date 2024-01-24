@@ -19,6 +19,14 @@ export default function App() {
     <SafeAreaView
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
     >
+      <Button
+        onPress={() => {
+          throw new Error('Hello, Sentry!');
+        }}
+      >
+        Throw error
+      </Button>
+
       {error ? (
         <Text>Oh no! Error</Text>
       ) : isLoading ? (
@@ -29,7 +37,6 @@ export default function App() {
           initialNumToRender={20}
           keyExtractor={item => item.identifier}
           data={data}
-          style={{ paddingHorizontal: 16, width: '100%' }}
           renderItem={({ item: mixtape }: { item: Mixtape }) => (
             <>
               <Link
@@ -42,9 +49,7 @@ export default function App() {
                 <List.Item
                   title={mixtape.title}
                   right={() => (
-                    <Text style={{ marginLeft: 'auto' }}>
-                      {dayjs(mixtape.date).format('YYYY')}
-                    </Text>
+                    <Text>{dayjs(mixtape.date).format('YYYY')}</Text>
                   )}
                   left={() => (
                     <Image

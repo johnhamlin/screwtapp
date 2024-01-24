@@ -1,6 +1,6 @@
+import { mixtapeListApi } from '@/features/mixtapeList/mixtapeList';
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { mixtapeListApi } from './services/mixtapeList';
 
 export const store = configureStore({
   reducer: {
