@@ -1,13 +1,15 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Button, FlatList, Pressable, Text, View } from 'react-native';
-import { Appbar, Divider, List } from 'react-native-paper';
+import { FlatList, Pressable } from 'react-native';
+import { Appbar, Divider, List, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 
-import { useGetMixtapeQuery } from '@/features/mixtapeList/mixtapeList';
+import { useGetMixtapeQuery } from '@/features/mixtapeList/mixtapeListSlice';
 import Player from '@/features/player/Player';
+import { playerProps } from '@/features/player/playerSlice';
 
 dayjs.extend(utc);
 type MixtapeListProps = {
@@ -19,13 +21,14 @@ export default function MixtapeDetails() {
   const router = useRouter();
   const { identifier } = useLocalSearchParams();
   const { data } = useGetMixtapeQuery(identifier as string);
-  const [playerProps, setPlayerProps] = useState<PlayerProps>({
-    dir: null,
-    file: null,
-  });
+  // const [playerProps, setPlayerProps] = useState<PlayerProps>({
+  //   dir: null,
+  //   file: null,
+  // });
+  const dispatch = useDispatch();
 
   const setTrackPlaying = ({ dir, file }: PlayerProps) => {
-    setPlayerProps({ dir, file });
+    dispatch(playerProps({ dir, file }));
   };
 
   return (
@@ -40,9 +43,10 @@ export default function MixtapeDetails() {
       >
         {/* <Button title="Home" onPress={() => router.push('/')} /> */}
 
-        <Player {...playerProps}></Player>
+        <Player />
 
         <FlatList
+          style={{ width: '100%', paddingHorizontal: 16 }}
           data={data}
           renderItem={({ item: mixtape, index }: MixtapeListProps) => (
             // TODO: Wrap this in a link

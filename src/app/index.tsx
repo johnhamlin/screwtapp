@@ -2,10 +2,16 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Link } from 'expo-router';
 import { FlatList, Image } from 'react-native';
-import { Button, Divider, List, Text } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  Divider,
+  List,
+  Text,
+} from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useGetMixtapeListQuery } from '@/features/mixtapeList/mixtapeList';
+import { useGetMixtapeListQuery } from '@/features/mixtapeList/mixtapeListSlice';
 
 dayjs.extend(utc);
 
@@ -19,20 +25,13 @@ export default function App() {
     <SafeAreaView
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
     >
-      <Button
-        onPress={() => {
-          throw new Error('Hello, Sentry!');
-        }}
-      >
-        Throw error
-      </Button>
-
       {error ? (
         <Text>Oh no! Error</Text>
       ) : isLoading ? (
-        <Text>Loading…</Text>
+        <ActivityIndicator size="large" />
       ) : data ? (
         <FlatList
+          style={{ width: '100%', paddingHorizontal: 16 }}
           // Load more on initial render so it fills the screen
           initialNumToRender={20}
           keyExtractor={item => item.identifier}
@@ -49,7 +48,9 @@ export default function App() {
                 <List.Item
                   title={mixtape.title}
                   right={() => (
-                    <Text>{dayjs(mixtape.date).format('YYYY')}</Text>
+                    <Text style={{ marginLeft: 'auto' }}>
+                      {dayjs(mixtape.date).format('YYYY')}
+                    </Text>
                   )}
                   left={() => (
                     <Image

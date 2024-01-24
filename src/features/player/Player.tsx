@@ -3,16 +3,23 @@ import { Sound } from 'expo-av/build/Audio';
 import { useEffect, useState } from 'react';
 import { Button, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 
-function Player({ dir, file }: PlayerProps) {
+import { RootState } from '@/store';
+
+function Player() {
   const [sound, setSound] = useState<Sound>();
   const [isPlaying, setIsPlaying] = useState(false);
   console.log({ sound });
   // console.log({ dir, file });
+  const { dir, file } = useSelector(
+    (state: RootState) => state.player.playerProps
+  );
 
   async function playSound() {
     console.log('Loading Sound');
     await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+
     if (dir && file) {
       const { sound } = await Audio.Sound.createAsync(
         {

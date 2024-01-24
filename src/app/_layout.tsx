@@ -1,3 +1,6 @@
+if (__DEV__) {
+  import('ReactotronConfig').then(() => console.log('Reactotron Configured'));
+}
 import { Slot, useNavigationContainerRef } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';

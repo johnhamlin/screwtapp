@@ -1,15 +1,20 @@
-import { mixtapeListApi } from '@/features/mixtapeList/mixtapeList';
+import Reactotron from 'ReactotronConfig';
+
+import { mixtapeListApi } from '@/features/mixtapeList/mixtapeListSlice';
+import playerReducer from '@/features/player/playerSlice';
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 export const store = configureStore({
   reducer: {
     [mixtapeListApi.reducerPath]: mixtapeListApi.reducer,
+    player: playerReducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(mixtapeListApi.middleware),
+  enhancers: __DEV__ ? [Reactotron.createEnhancer!()] : [],
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
