@@ -6,8 +6,8 @@ import { Button, FlatList, Pressable, Text, View } from 'react-native';
 import { Appbar, Divider, List } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useGetMixtapeQuery } from '../../../model/redux/services/mixtapeList';
-import Player from '../../components/audio/Player';
+import { useGetMixtapeQuery } from '@/features/mixtapeList/mixtapeList';
+import Player from '@/features/player/Player';
 
 dayjs.extend(utc);
 type MixtapeListProps = {

@@ -5,7 +5,7 @@ import { FlatList, Image } from 'react-native';
 import { Button, Divider, List, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useGetMixtapeListQuery } from '../model/redux/services/mixtapeList';
+import { useGetMixtapeListQuery } from '@/features/mixtapeList/mixtapeList';
 
 dayjs.extend(utc);
 
