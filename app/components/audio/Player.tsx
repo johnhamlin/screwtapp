@@ -1,6 +1,7 @@
 import { Audio } from 'expo-av';
 import { Sound } from 'expo-av/build/Audio';
-import { View, Button, Text } from 'react-native';
+import { View, Button } from 'react-native';
+import { Text } from 'react-native-paper';
 import { useEffect, useState } from 'react';
 
 function Player({ dir, file }: PlayerProps) {

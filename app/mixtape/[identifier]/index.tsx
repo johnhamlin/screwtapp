@@ -8,7 +8,7 @@ import { useGetMixtapeQuery } from '../../../model/redux/services/mixtapeList';
 import Player from '../../components/audio/Player';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Divider, List } from 'react-native-paper';
+import { Divider, List, Appbar } from 'react-native-paper';
 
 type MixtapeListProps = {
   item: Track;
@@ -29,35 +29,42 @@ export default function MixtapeDetails() {
   };
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-    >
-      <Button title="Home" onPress={() => router.push('/')} />
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => router.push('/')} />
+        <Appbar.Content title={data ? data[0].album : ''} />
+      </Appbar.Header>
 
-      <Player {...playerProps}></Player>
+      <SafeAreaView
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      >
+        {/* <Button title="Home" onPress={() => router.push('/')} /> */}
 
-      <FlatList
-        data={data}
-        renderItem={({ item: mixtape, index }: MixtapeListProps) => (
-          // TODO: Wrap this in a link
-          <Pressable
-            onPress={() =>
-              setTrackPlaying({ dir: mixtape.dir, file: mixtape.name })
-            }
-          >
-            <List.Item
-              title={mixtape.title}
-              left={() => <Text>{index + 1}</Text>}
-              right={() => (
-                <Text>{dayjs.utc(mixtape.length * 1000).format('m:ss')}</Text>
-              )}
-            ></List.Item>
-            <Divider />
-          </Pressable>
-        )}
-        keyExtractor={(item: Track) => item.md5}
-      />
-    </SafeAreaView>
+        <Player {...playerProps}></Player>
+
+        <FlatList
+          data={data}
+          renderItem={({ item: mixtape, index }: MixtapeListProps) => (
+            // TODO: Wrap this in a link
+            <Pressable
+              onPress={() =>
+                setTrackPlaying({ dir: mixtape.dir, file: mixtape.name })
+              }
+            >
+              <List.Item
+                title={mixtape.title}
+                left={() => <Text>{index + 1}</Text>}
+                right={() => (
+                  <Text>{dayjs.utc(mixtape.length * 1000).format('m:ss')}</Text>
+                )}
+              ></List.Item>
+              <Divider />
+            </Pressable>
+          )}
+          keyExtractor={(item: Track) => item.md5}
+        />
+      </SafeAreaView>
+    </>
   );
 }
 dayjs;

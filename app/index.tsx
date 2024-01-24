@@ -1,9 +1,12 @@
 import { useGetMixtapeListQuery } from '../model/redux/services/mixtapeList';
 import { Link } from 'expo-router';
-import { FlatList, ScrollView } from 'react-native';
-import { List } from 'react-native-paper';
+import { FlatList } from 'react-native';
+import { Divider, List, Text, Button } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image, Text } from 'react-native';
+import { Image } from 'react-native';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 const THUMB_URL = 'https://archive.org/services/img/';
 // ctrl-cmd-z to open menu in simulator
@@ -15,6 +18,14 @@ export default function App() {
     <SafeAreaView
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
     >
+      <Button
+        onPress={() => {
+          throw new Error('Hello, Sentry!');
+        }}
+      >
+        Throw error
+      </Button>
+
       {error ? (
         <Text>Oh no! Error</Text>
       ) : isLoading ? (
@@ -26,21 +37,32 @@ export default function App() {
           keyExtractor={item => item.identifier}
           data={data}
           renderItem={({ item: mixtape }: { item: Mixtape }) => (
-            <Link href={'/mixtape/' + mixtape.identifier}>
-              <List.Item
-                title={mixtape.title}
-                description={mixtape.date}
-                left={() => (
-                  <Image
-                    style={{ width: 48, height: 48 }}
-                    alt="album artwork"
-                    source={{
-                      uri: THUMB_URL + mixtape.identifier,
-                    }}
-                  />
-                )}
-              ></List.Item>
-            </Link>
+            <>
+              <Link
+                // @ts-ignore this is a bug in expo-router
+                href={{
+                  pathname: 'mixtape/[identifier]',
+                  params: { identifier: mixtape.identifier },
+                }}
+              >
+                <List.Item
+                  title={mixtape.title}
+                  right={() => (
+                    <Text>{dayjs(mixtape.date).format('YYYY')}</Text>
+                  )}
+                  left={() => (
+                    <Image
+                      style={{ width: 48, height: 48 }}
+                      alt="album artwork"
+                      source={{
+                        uri: THUMB_URL + mixtape.identifier,
+                      }}
+                    />
+                  )}
+                />
+              </Link>
+              <Divider />
+            </>
           )}
         />
       ) : null}
