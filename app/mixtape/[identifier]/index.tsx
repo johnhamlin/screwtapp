@@ -1,15 +1,15 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
-import { View, Button, FlatList, Pressable, Text } from 'react-native';
+import { useState } from 'react';
+import { Button, FlatList, Pressable, View } from 'react-native';
+import { Appbar, Divider, List, Text } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useGetMixtapeQuery } from '../../../model/redux/services/mixtapeList';
 import Player from '../../components/audio/Player';
-import { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Divider, List, Appbar } from 'react-native-paper';
 
+dayjs.extend(utc);
 type MixtapeListProps = {
   item: Track;
   index: number;
@@ -44,6 +44,7 @@ export default function MixtapeDetails() {
 
         <FlatList
           data={data}
+          style={{ width: '100%', paddingHorizontal: 16 }}
           renderItem={({ item: mixtape, index }: MixtapeListProps) => (
             // TODO: Wrap this in a link
             <Pressable
