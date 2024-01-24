@@ -1,14 +1,17 @@
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import { store } from '../model/redux/store';
 import { Slot } from 'expo-router';
-import { NativeBaseProvider } from 'native-base';
+import { PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function Layout() {
   return (
-    <Provider store={store}>
-      <NativeBaseProvider>
-        <Slot />
-      </NativeBaseProvider>
-    </Provider>
+    <ReduxProvider store={store}>
+      <PaperProvider>
+        <SafeAreaProvider>
+          <Slot />
+        </SafeAreaProvider>
+      </PaperProvider>
+    </ReduxProvider>
   );
 }

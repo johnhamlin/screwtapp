@@ -3,18 +3,6 @@ import { StyleSheet, View } from 'react-native';
 import { Audio } from 'expo-av';
 import { useEffect, useState } from 'react';
 import { Sound } from 'expo-av/build/Audio/Sound';
-import {
-  NativeBaseProvider,
-  Box,
-  Button,
-  Heading,
-  FlatList,
-  HStack,
-  Avatar,
-  VStack,
-  Spacer,
-  Text,
-} from 'native-base';
 
 // const data = [
 //   {

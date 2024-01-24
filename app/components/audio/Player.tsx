@@ -1,6 +1,6 @@
 import { Audio } from 'expo-av';
 import { Sound } from 'expo-av/build/Audio';
-import { Box, Button, Text } from 'native-base';
+import { View, Button, Text } from 'react-native';
 import { useEffect, useState } from 'react';
 
 function Player({ dir, file }: PlayerProps) {
@@ -49,11 +49,11 @@ function Player({ dir, file }: PlayerProps) {
       : undefined;
   }, [sound]);
   return (
-    <Box>
+    <View>
       {file ? <Text>Now Playing {file}</Text> : null}
       {/* <Button onPress={playSound}>Load and Play Sound</Button> */}
-      <Button onPress={playPauseSound}>Play/Pause</Button>
-    </Box>
+      <Button title="Play/Pause" onPress={playPauseSound} />
+    </View>
   );
 }
 export default Player;

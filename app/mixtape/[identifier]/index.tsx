@@ -2,23 +2,18 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
-import {
-  Box,
-  Button,
-  FlatList,
-  HStack,
-  Image,
-  NativeBaseProvider,
-  Pressable,
-  ScrollView,
-  Spacer,
-  Text,
-  VStack,
-} from 'native-base';
+import { View, Button, FlatList, Pressable, Text } from 'react-native';
 
 import { useGetMixtapeQuery } from '../../../model/redux/services/mixtapeList';
 import Player from '../../components/audio/Player';
 import { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Divider, List } from 'react-native-paper';
+
+type MixtapeListProps = {
+  item: Track;
+  index: number;
+};
 
 export default function MixtapeDetails() {
   const router = useRouter();
@@ -34,84 +29,35 @@ export default function MixtapeDetails() {
   };
 
   return (
-    <Box
-      flex={1}
-      bg="#fff"
-      alignItems="center"
-      justifyContent="center"
-      safeArea
-      safeAreaX
+    <SafeAreaView
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
     >
-      <Button onPress={() => router.push('/')}>Home</Button>
-
-      <Link href={'/'}>Home</Link>
+      <Button title="Home" onPress={() => router.push('/')} />
 
       <Player {...playerProps}></Player>
 
       <FlatList
         data={data}
-        renderItem={({ item }: { item: Track }) => (
+        renderItem={({ item: mixtape, index }: MixtapeListProps) => (
           // TODO: Wrap this in a link
           <Pressable
-            onPress={() => setTrackPlaying({ dir: item.dir, file: item.name })}
+            onPress={() =>
+              setTrackPlaying({ dir: mixtape.dir, file: mixtape.name })
+            }
           >
-            <Box
-              borderBottomWidth="1"
-              _dark={{
-                borderColor: 'muted.50',
-              }}
-              borderColor="muted.800"
-              pl={['0', '4']}
-              pr={['0', '5']}
-              py="2"
-            >
-              <HStack space={[2, 3]} justifyContent="space-between">
-                {/* <Image
-                    size="48px"
-                    alt="album artwork"
-                    source={{
-                      uri: THUMB_URL + item.identifier,
-                    }}
-                  /> */}
-
-                <VStack>
-                  <Text
-                    _dark={{
-                      color: 'warmGray.50',
-                    }}
-                    color="coolGray.800"
-                    bold
-                    width={'75%'}
-                  >
-                    {item.title}
-                  </Text>
-                  <Text
-                    color="coolGray.600"
-                    _dark={{
-                      color: 'warmGray.200',
-                    }}
-                  >
-                    {dayjs.utc(item.length * 1000).format('m:ss')}
-                  </Text>
-                </VStack>
-                <Spacer />
-                <Text
-                  fontSize="xs"
-                  _dark={{
-                    color: 'warmGray.50',
-                  }}
-                  color="coolGray.800"
-                  alignSelf="flex-start"
-                >
-                  {item.track}
-                </Text>
-              </HStack>
-            </Box>
+            <List.Item
+              title={mixtape.title}
+              left={() => <Text>{index + 1}</Text>}
+              right={() => (
+                <Text>{dayjs.utc(mixtape.length * 1000).format('m:ss')}</Text>
+              )}
+            ></List.Item>
+            <Divider />
           </Pressable>
         )}
         keyExtractor={(item: Track) => item.md5}
       />
-    </Box>
+    </SafeAreaView>
   );
 }
 dayjs;
