@@ -24,4 +24,9 @@ android/
 
 expo-env.d.ts
 # @end expo-cli
+
+# Secrets
 .env
+
+# Locally built standalone apps
+build
