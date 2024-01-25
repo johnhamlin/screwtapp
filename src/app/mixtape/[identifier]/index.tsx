@@ -1,14 +1,11 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
-import { FlatList, Pressable } from 'react-native';
-import { Appbar, Divider, List, Text } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { FlatList, Pressable, View } from 'react-native';
+import { Divider, List, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
 import { useGetMixtapeQuery } from '@/features/mixtapeList/mixtapeListSlice';
-import Player from '@/features/player/Player';
 import { playerProps } from '@/features/player/playerSlice';
 
 dayjs.extend(utc);
@@ -17,7 +14,7 @@ type MixtapeListProps = {
   index: number;
 };
 
-export default function MixtapeDetails() {
+export default function Mixtape() {
   const router = useRouter();
   const { identifier } = useLocalSearchParams();
   const { data } = useGetMixtapeQuery(identifier as string);
@@ -33,17 +30,13 @@ export default function MixtapeDetails() {
 
   return (
     <>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => router.push('/')} />
-        <Appbar.Content title={data ? data[0].album : ''} />
-      </Appbar.Header>
-
-      <SafeAreaView
-        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-      >
-        {/* <Button title="Home" onPress={() => router.push('/')} /> */}
-
-        <Player />
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Stack.Screen
+          options={{
+            title: data ? data[0].album : '',
+            headerBackTitleVisible: false,
+          }}
+        />
 
         <FlatList
           style={{ width: '100%', paddingHorizontal: 16 }}
@@ -67,8 +60,7 @@ export default function MixtapeDetails() {
           )}
           keyExtractor={(item: Track) => item.md5}
         />
-      </SafeAreaView>
+      </View>
     </>
   );
 }
-dayjs;

@@ -1,13 +1,14 @@
 if (__DEV__) {
   import('ReactotronConfig').then(() => console.log('Reactotron Configured'));
 }
-import { Slot, useNavigationContainerRef } from 'expo-router';
+import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as ReduxProvider } from 'react-redux';
 
+import Player from '@/features/player/Player';
 import { store } from '@/store';
 import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
 import * as Sentry from '@sentry/react-native';
@@ -50,7 +51,8 @@ function RootLayout() {
     <ReduxProvider store={store}>
       <PaperProvider theme={paperTheme}>
         <SafeAreaProvider>
-          <Slot />
+          <Stack initialRouteName="Home" />
+          <Player />
         </SafeAreaProvider>
       </PaperProvider>
     </ReduxProvider>

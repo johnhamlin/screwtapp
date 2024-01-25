@@ -1,15 +1,8 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { Link } from 'expo-router';
-import { FlatList, Image } from 'react-native';
-import {
-  ActivityIndicator,
-  Button,
-  Divider,
-  List,
-  Text,
-} from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link, Stack } from 'expo-router';
+import { FlatList, Image, View } from 'react-native';
+import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
 
 import { useGetMixtapeListQuery } from '@/features/mixtapeList/mixtapeListSlice';
 
@@ -22,16 +15,20 @@ export default function App() {
   const { data, error, isLoading } = useGetMixtapeListQuery('');
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-    >
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Stack.Screen
+        options={{
+          title: 'ScrewTapp',
+        }}
+      />
+
       {error ? (
         <Text>Oh no! Error</Text>
       ) : isLoading ? (
         <ActivityIndicator size="large" />
       ) : data ? (
         <FlatList
-          style={{ width: '100%', paddingHorizontal: 16 }}
+          style={{ width: '100%', paddingLeft: 16 }}
           // Load more on initial render so it fills the screen
           initialNumToRender={20}
           keyExtractor={item => item.identifier}
@@ -39,18 +36,20 @@ export default function App() {
           renderItem={({ item: mixtape }: { item: Mixtape }) => (
             <>
               <Link
-                // @ts-ignore this is a bug in expo-router
+                //prevent Link from wrapping children in a <Text> component
+                asChild
                 href={{
                   pathname: 'mixtape/[identifier]',
                   params: { identifier: mixtape.identifier },
                 }}
               >
                 <List.Item
+                  // word wrap for Title
+                  titleNumberOfLines={2}
+                  titleStyle={{ paddingRight: 16 }}
                   title={mixtape.title}
                   right={() => (
-                    <Text style={{ marginLeft: 'auto' }}>
-                      {dayjs(mixtape.date).format('YYYY')}
-                    </Text>
+                    <Text>{dayjs(mixtape.date).format('YYYY')}</Text>
                   )}
                   left={() => (
                     <Image
@@ -68,6 +67,6 @@ export default function App() {
           )}
         />
       ) : null}
-    </SafeAreaView>
+    </View>
   );
 }
