@@ -1,6 +1,3 @@
-if (__DEV__) {
-  import('ReactotronConfig').then(() => console.log('Reactotron Configured'));
-}
 import merge from 'deepmerge';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useEffect } from 'react';

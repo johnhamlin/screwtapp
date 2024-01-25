@@ -38,6 +38,7 @@ export default function App() {
               <Link
                 //prevent Link from wrapping children in a <Text> component
                 asChild
+                //@ts-ignore weird expo-router bug?
                 href={{
                   pathname: 'mixtape/[identifier]',
                   params: { identifier: mixtape.identifier },

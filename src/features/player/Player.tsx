@@ -1,4 +1,4 @@
-import { Audio } from 'expo-av';
+import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 import { Sound } from 'expo-av/build/Audio';
 import { useEffect, useState } from 'react';
 import { Button, View } from 'react-native';
@@ -21,7 +21,15 @@ function Player() {
 
   async function playSound() {
     console.log('Loading Sound');
-    await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+    await Audio.setAudioModeAsync({
+      playsInSilentModeIOS: true,
+      staysActiveInBackground: true,
+      allowsRecordingIOS: false,
+      interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
+      interruptionModeIOS: InterruptionModeIOS.DuckOthers,
+      shouldDuckAndroid: true,
+      playThroughEarpieceAndroid: true,
+    });
 
     if (dir && file) {
       const { sound } = await Audio.Sound.createAsync(

@@ -1,5 +1,3 @@
-import Reactotron from 'ReactotronConfig';
-
 import { mixtapeListApi } from '@/features/mixtapeList/mixtapeListSlice';
 import playerReducer from '@/features/player/playerSlice';
 import { configureStore } from '@reduxjs/toolkit';
@@ -14,7 +12,6 @@ export const store = configureStore({
   // and other useful features of `rtk-query`.
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(mixtapeListApi.middleware),
-  enhancers: __DEV__ ? [Reactotron.createEnhancer!()] : [],
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

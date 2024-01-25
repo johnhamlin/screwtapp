@@ -12,11 +12,18 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "in.johnhamlin.screwtapp",
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +31,10 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.johnhamlin.screwtapp",
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "permissions": [
+        "WAKE_LOCK"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -43,6 +53,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "b22c69ef-c190-4f94-8c2b-bc4c6a9ae4d4"
+      }
     }
   }
 }
