@@ -28,7 +28,7 @@ export default function App() {
         <ActivityIndicator size="large" />
       ) : data ? (
         <FlatList
-          style={{ width: '100%', paddingLeft: 16 }}
+          style={{ width: '100%', paddingLeft: 18 }}
           // Load more on initial render so it fills the screen
           initialNumToRender={20}
           keyExtractor={item => item.identifier}
@@ -46,8 +46,8 @@ export default function App() {
                 <List.Item
                   // word wrap for Title
                   titleNumberOfLines={2}
-                  titleStyle={{ paddingRight: 16 }}
                   title={mixtape.title}
+                  titleStyle={{ paddingRight: 18 }}
                   right={() => (
                     <Text>{dayjs(mixtape.date).format('YYYY')}</Text>
                   )}

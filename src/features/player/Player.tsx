@@ -2,12 +2,15 @@ import { Audio } from 'expo-av';
 import { Sound } from 'expo-av/build/Audio';
 import { useEffect, useState } from 'react';
 import { Button, View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '@/store';
 
 function Player() {
+  const theme = useTheme();
+
   const [sound, setSound] = useState<Sound>();
   const [isPlaying, setIsPlaying] = useState(false);
   console.log({ sound });
@@ -57,11 +60,11 @@ function Player() {
       : undefined;
   }, [sound]);
   return (
-    <View>
+    <SafeAreaView style={{ backgroundColor: theme.colors.elevation.level2 }}>
       {file ? <Text>Now Playing {file}</Text> : null}
       {/* <Button onPress={playSound}>Load and Play Sound</Button> */}
       <Button title="Play/Pause" onPress={playPauseSound} />
-    </View>
+    </SafeAreaView>
   );
 }
 export default Player;
