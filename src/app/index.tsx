@@ -17,7 +17,7 @@ export default function App() {
   return (
     <View
       // className="bg-red-800"
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      className="items-center content-center flex-1"
     >
       <Stack.Screen
         options={{
@@ -31,7 +31,7 @@ export default function App() {
         <ActivityIndicator size="large" />
       ) : data ? (
         <FlatList
-          style={{ width: '100%', paddingLeft: 18 }}
+          className="w-full pl-5"
           // Load more on initial render so it fills the screen
           initialNumToRender={20}
           keyExtractor={item => item.identifier}
@@ -57,7 +57,7 @@ export default function App() {
                   )}
                   left={() => (
                     <Image
-                      style={{ width: 48, height: 48 }}
+                      className="w-14 h-14"
                       alt="album artwork"
                       source={{
                         uri: THUMB_URL + mixtape.identifier,

@@ -27,7 +27,7 @@ export default function Mixtape() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View className="items-center content-center flex-1">
       <Stack.Screen
         options={{
           title: data ? data[0].album : '',
@@ -36,7 +36,7 @@ export default function Mixtape() {
       />
 
       <FlatList
-        style={{ width: '100%', paddingLeft: 18 }}
+        className="w-full pl-5"
         data={data}
         renderItem={({ item: mixtape, index }: MixtapeListProps) => (
           // TODO: Wrap this in a link
