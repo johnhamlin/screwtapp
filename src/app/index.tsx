@@ -4,7 +4,7 @@ import { Link, Stack } from 'expo-router';
 import { FlatList, Image, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
 
-import { useGetMixtapeListQuery } from '@/features/mixtapeList/mixtapeListSlice';
+import { useGetMixtapeListQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
 
 dayjs.extend(utc);
 
@@ -46,6 +46,7 @@ export default function App() {
                   pathname: 'mixtape/[identifier]',
                   params: { identifier: mixtape.identifier },
                 }}
+                // onPress={}
               >
                 <List.Item
                   // word wrap for Title

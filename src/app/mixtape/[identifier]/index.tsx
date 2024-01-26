@@ -5,7 +5,7 @@ import { FlatList, Pressable, View } from 'react-native';
 import { Divider, List, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
-import { useGetMixtapeQuery } from '@/features/mixtapeList/mixtapeListSlice';
+import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
 import { playerProps } from '@/features/player/playerSlice';
 
 dayjs.extend(utc);

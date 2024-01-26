@@ -1,4 +1,4 @@
-import { mixtapeListApi } from '@/features/mixtapeList/mixtapeListSlice';
+import { mixtapeListApi } from '@/features/mixtapeList/slices/mixtapeListApi';
 import playerReducer from '@/features/player/playerSlice';
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
