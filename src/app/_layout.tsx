@@ -47,6 +47,23 @@ function RootLayout() {
     }
   }, [ref]);
 
+  const theme = useCombinedTheme();
+
+  return (
+    <ReduxProvider store={store}>
+      <PaperProvider theme={theme}>
+        <ThemeProvider value={theme}>
+          <SafeAreaProvider>
+            <Stack initialRouteName="Home" />
+            <Player />
+          </SafeAreaProvider>
+        </ThemeProvider>
+      </PaperProvider>
+    </ReduxProvider>
+  );
+}
+
+function useCombinedTheme() {
   //  Merge the Material Design 3 theme with any Android user customizations
   const { theme: androidCustomTheme } = useMaterial3Theme();
   const MD3DefaultThemeWithAndroidCustomization = {
@@ -75,21 +92,7 @@ function RootLayout() {
 
   // Set the light or dark theme based on the system preference
   const colorScheme = useColorScheme();
-  const theme =
-    colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
-
-  return (
-    <ReduxProvider store={store}>
-      <PaperProvider theme={theme}>
-        <ThemeProvider value={theme}>
-          <SafeAreaProvider>
-            <Stack initialRouteName="Home" />
-            <Player />
-          </SafeAreaProvider>
-        </ThemeProvider>
-      </PaperProvider>
-    </ReduxProvider>
-  );
+  return colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
 }
 
 export default Sentry.wrap(RootLayout);
