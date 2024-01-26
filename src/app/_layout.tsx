@@ -1,3 +1,5 @@
+import '@/styles/global.css';
+
 import merge from 'deepmerge';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useEffect } from 'react';
@@ -25,7 +27,7 @@ import * as Sentry from '@sentry/react-native';
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
 Sentry.init({
   dsn: 'https://3ebc70c8d7760dbce1a08ea177938236@o4506599881834496.ingest.sentry.io/4506626395930624',
-  debug: true, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+  // debug: __DEV__, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
   integrations: [
     new Sentry.ReactNativeTracing({
       // Pass instrumentation to be used as `routingInstrumentation`
@@ -62,8 +64,14 @@ function RootLayout() {
     reactNavigationDark: NavigationDarkTheme,
   });
   // Merge the Material Design 3 theme with the React Navigation theme
-  const CombinedDefaultTheme = merge(MD3LightTheme, LightTheme);
-  const CombinedDarkTheme = merge(MD3DarkTheme, DarkTheme);
+  const CombinedDefaultTheme = merge(
+    MD3DefaultThemeWithAndroidCustomization,
+    LightTheme
+  );
+  const CombinedDarkTheme = merge(
+    MD3DarkThemeWithAndroidCustomization,
+    DarkTheme
+  );
 
   // Set the light or dark theme based on the system preference
   const colorScheme = useColorScheme();

@@ -15,7 +15,10 @@ export default function App() {
   const { data, error, isLoading } = useGetMixtapeListQuery('');
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View
+      // className="bg-red-800"
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+    >
       <Stack.Screen
         options={{
           title: 'ScrewTapp',

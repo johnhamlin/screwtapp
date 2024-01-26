@@ -68,7 +68,11 @@ function Player() {
       : undefined;
   }, [sound]);
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.elevation.level2 }}>
+    <SafeAreaView
+      // TODO: Figure out a better way to include theme into Nativewind
+      className="bg-[#f3edf6] dark:bg-[#2c2831]"
+      // style={{ backgroundColor: theme.colors.elevation.level2 }}
+    >
       {file ? <Text>Now Playing {file}</Text> : null}
       {/* <Button onPress={playSound}>Load and Play Sound</Button> */}
       <Button title="Play/Pause" onPress={playPauseSound} />
