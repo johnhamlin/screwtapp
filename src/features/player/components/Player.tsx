@@ -94,7 +94,7 @@ export default function Player() {
       className="bg-[#f3edf6] dark:bg-[#2c2831]"
       // style={{ backgroundColor: theme.colors.elevation.level2 }}
     >
-      {isPlayerReady ? (
+      {useSelector((state: RootState) => state.player.isPlayerReady) ? (
         <Button title="play with rntp" onPress={rntpPlay} />
       ) : null}
       {file ? <Text>Now Playing {file}</Text> : null}

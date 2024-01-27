@@ -1,3 +1,7 @@
+if (__DEV__) {
+  import('ReactotronConfig').then(() => console.log('Reactotron Configured'));
+}
+
 import '@/styles/global.css';
 
 import merge from 'deepmerge';
