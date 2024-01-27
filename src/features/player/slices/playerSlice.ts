@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 export interface PlayerState {
+  isPlayerReady: boolean;
   currentTrack: string;
   sound: Sound | null;
   isPlaying: boolean;
@@ -21,6 +22,7 @@ export interface PlayerState {
 }
 
 const initialState = {
+  isPlayerReady: false,
   currentTrack: '',
   // sound: null,
   isPlaying: false,
@@ -44,6 +46,9 @@ export const playerSlice = createSlice({
   name: 'player',
   initialState,
   reducers: {
+    isPlayerReady: (state, action: PayloadAction<boolean>) => {
+      state.isPlayerReady = action.payload;
+    },
     currentTrack: (state, action: PayloadAction<string>) => {
       state.currentTrack = action.payload;
     },
@@ -89,6 +94,7 @@ export const playerSlice = createSlice({
   },
 });
 
-export const { currentTrack, isPlaying, playerProps } = playerSlice.actions;
+export const { isPlayerReady, currentTrack, isPlaying, playerProps } =
+  playerSlice.actions;
 
 export default playerSlice.reducer;

@@ -5,15 +5,19 @@ import { Button, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TrackPlayer from 'react-native-track-player';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/store';
 
 import { SetupService } from '../services';
+import { isPlayerReady } from '../slices/playerSlice';
 
 export default function Player() {
+  const dispatch = useDispatch();
+
   // react-native-track-player
-  const isPlayerReady = useSetupPlayer();
+  dispatch(isPlayerReady(useSetupPlayer()));
+  // const isPlayerReady = useSetupPlayer();
   const rntpPlay = async () => {
     // Add a track to the queue
     await TrackPlayer.add({
