@@ -5,23 +5,23 @@ import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import {
-  adaptNavigationTheme,
-  MD3DarkTheme,
-  MD3LightTheme,
-  PaperProvider,
+    adaptNavigationTheme, MD3DarkTheme, MD3LightTheme, PaperProvider
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import TrackPlayer from 'react-native-track-player';
 import { Provider as ReduxProvider } from 'react-redux';
 
-import Player from '@/features/player/Player';
+import Player from '@/features/player/components/Player';
+import { PlaybackService } from '@/features/player/services';
 import { store } from '@/store';
 import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
 import {
-  DarkTheme as NavigationDarkTheme,
-  DefaultTheme as NavigationDefaultTheme,
-  ThemeProvider,
+    DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme, ThemeProvider
 } from '@react-navigation/native';
 import * as Sentry from '@sentry/react-native';
+
+// Register the react-native-track-player playback service
+TrackPlayer.registerPlaybackService(() => PlaybackService);
 
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();

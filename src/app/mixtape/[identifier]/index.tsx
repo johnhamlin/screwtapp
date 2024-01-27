@@ -6,7 +6,7 @@ import { Divider, List, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
 import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
-import { playerProps } from '@/features/player/playerSlice';
+import { playerProps } from '@/features/player/slices/playerSlice';
 
 dayjs.extend(utc);
 

@@ -4,12 +4,29 @@ import { useEffect, useState } from 'react';
 import { Button, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import TrackPlayer from 'react-native-track-player';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '@/store';
 
-function Player() {
-  const theme = useTheme();
+import { SetupService } from '../services';
+
+export default function Player() {
+  // react-native-track-player
+  const isPlayerReady = useSetupPlayer();
+  const rntpPlay = async () => {
+    // Add a track to the queue
+    await TrackPlayer.add({
+      id: 'trackId',
+      url: 'https://ia601902.us.archive.org/22/items/20200602_20200602_1746/101.%20E.S.G.%20-%20Watch%20Yo%20Screw.mp3',
+      title: 'Track Title',
+      artist: 'Track Artist',
+      // artwork: require('track.png'),
+    });
+
+    // Start playing it
+    await TrackPlayer.play();
+  };
 
   const [sound, setSound] = useState<Sound>();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -73,10 +90,34 @@ function Player() {
       className="bg-[#f3edf6] dark:bg-[#2c2831]"
       // style={{ backgroundColor: theme.colors.elevation.level2 }}
     >
+      {isPlayerReady ? (
+        <Button title="play with rntp" onPress={rntpPlay} />
+      ) : null}
       {file ? <Text>Now Playing {file}</Text> : null}
       {/* <Button onPress={playSound}>Load and Play Sound</Button> */}
       <Button title="Play/Pause" onPress={playPauseSound} />
     </SafeAreaView>
   );
 }
-export default Player;
+
+function useSetupPlayer() {
+  const [playerReady, setPlayerReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    let unmounted = false;
+    (async () => {
+      await SetupService();
+      if (unmounted) return;
+      setPlayerReady(true);
+      const queue = await TrackPlayer.getQueue();
+      if (unmounted) return;
+      // if (queue.length <= 0) {
+      //   await QueueInitialTracksService();
+      // }
+    })();
+    return () => {
+      unmounted = true;
+    };
+  }, []);
+  return playerReady;
+}
