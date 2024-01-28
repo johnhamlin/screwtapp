@@ -10,14 +10,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 
 import { SetupService } from '../services';
-import { isPlayerReady } from '../slices/playerSlice';
+import { setPlayerReady } from '../slices/playerSlice';
 
 export default function Player() {
   const dispatch = useDispatch();
 
   // react-native-track-player
-  dispatch(isPlayerReady(useSetupPlayer()));
-  // const isPlayerReady = useSetupPlayer();
+  dispatch(setPlayerReady(useSetupPlayer()));
+  // const isPlayerReady = useSelector(
+  //   (state: RootState) => state.player.isPlayerReady
+  // );
+
   const rntpPlay = async () => {
     // Add a track to the queue
     await TrackPlayer.add({
@@ -94,9 +97,7 @@ export default function Player() {
       className="bg-[#f3edf6] dark:bg-[#2c2831]"
       // style={{ backgroundColor: theme.colors.elevation.level2 }}
     >
-      {useSelector((state: RootState) => state.player.isPlayerReady) ? (
-        <Button title="play with rntp" onPress={rntpPlay} />
-      ) : null}
+      <Button title="play with rntp" onPress={rntpPlay} />
       {file ? <Text>Now Playing {file}</Text> : null}
       {/* <Button onPress={playSound}>Load and Play Sound</Button> */}
       <Button title="Play/Pause" onPress={playPauseSound} />

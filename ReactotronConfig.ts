@@ -4,6 +4,6 @@ import { reactotronRedux } from 'reactotron-redux';
 const reactotron = Reactotron.configure({ name: 'ScrewTapp' })
   .useReactNative()
   .use(reactotronRedux())
-  .connect(); //Don't forget about me!
+  .connect();
 
-export default reactotron; // also: export me so I can be referenced by Redux store
+export default reactotron;

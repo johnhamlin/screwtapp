@@ -30,3 +30,4 @@ expo-env.d.ts
 
 # Locally built standalone apps
 build
+build*.ipa

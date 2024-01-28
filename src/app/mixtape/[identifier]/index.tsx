@@ -6,7 +6,7 @@ import { Divider, List, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
 import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
-import { playerProps } from '@/features/player/slices/playerSlice';
+import { setPlayerProps } from '@/features/player/slices/playerSlice';
 
 dayjs.extend(utc);
 
@@ -16,14 +16,13 @@ type MixtapeListProps = {
 };
 
 export default function Mixtape() {
-  const router = useRouter();
   const { identifier } = useLocalSearchParams();
   const { data, error, isLoading } = useGetMixtapeQuery(identifier as string);
 
   const dispatch = useDispatch();
 
   const setTrackPlaying = ({ dir, file }: PlayerProps) => {
-    dispatch(playerProps({ dir, file }));
+    dispatch(setPlayerProps({ dir, file }));
   };
 
   return (

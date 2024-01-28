@@ -46,19 +46,19 @@ export const playerSlice = createSlice({
   name: 'player',
   initialState,
   reducers: {
-    isPlayerReady: (state, action: PayloadAction<boolean>) => {
+    setPlayerReady: (state, action: PayloadAction<boolean>) => {
       state.isPlayerReady = action.payload;
     },
-    currentTrack: (state, action: PayloadAction<string>) => {
+    setCurrentTrack: (state, action: PayloadAction<string>) => {
       state.currentTrack = action.payload;
     },
     // setSound: (state, action: PayloadAction<Sound>) => {
     //   state.sound = action.payload;
     // },
-    isPlaying: (state, action: PayloadAction<boolean>) => {
+    setIsPlaying: (state, action: PayloadAction<boolean>) => {
       state.isPlaying = action.payload;
     },
-    playerProps: (state, action: PayloadAction<PlayerProps>) => {
+    setPlayerProps: (state, action: PayloadAction<PlayerProps>) => {
       state.playerProps = action.payload;
     },
     // setCurrentTrackIndex: (state, action: PayloadAction<number>) => {
@@ -94,7 +94,7 @@ export const playerSlice = createSlice({
   },
 });
 
-export const { isPlayerReady, currentTrack, isPlaying, playerProps } =
+export const { setPlayerReady, setCurrentTrack, setIsPlaying, setPlayerProps } =
   playerSlice.actions;
 
 export default playerSlice.reducer;

@@ -6,7 +6,9 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "module": "ESNext"
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "esModuleInterop": true
   },
   "include": [
     "**/*.ts",
