@@ -1,15 +1,21 @@
-if (__DEV__) {
-  import('ReactotronConfig').then(() => console.log('Reactotron Configured'));
-}
-
 import '@/styles/global.css';
 
+import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
+import {
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+  ThemeProvider,
+} from '@react-navigation/native';
+import * as Sentry from '@sentry/react-native';
 import merge from 'deepmerge';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import {
-    adaptNavigationTheme, MD3DarkTheme, MD3LightTheme, PaperProvider
+  MD3DarkTheme,
+  MD3LightTheme,
+  PaperProvider,
+  adaptNavigationTheme,
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TrackPlayer from 'react-native-track-player';
@@ -18,11 +24,10 @@ import { Provider as ReduxProvider } from 'react-redux';
 import Player from '@/features/player/components/Player';
 import { PlaybackService } from '@/features/player/services';
 import { store } from '@/store';
-import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
-import {
-    DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme, ThemeProvider
-} from '@react-navigation/native';
-import * as Sentry from '@sentry/react-native';
+
+if (__DEV__) {
+  import('ReactotronConfig').then(() => console.log('Reactotron Configured'));
+}
 
 // Register the react-native-track-player playback service
 TrackPlayer.registerPlaybackService(() => PlaybackService);
@@ -87,11 +92,11 @@ function useCombinedTheme() {
   // Merge the Material Design 3 theme with the React Navigation theme
   const CombinedDefaultTheme = merge(
     MD3DefaultThemeWithAndroidCustomization,
-    LightTheme
+    LightTheme,
   );
   const CombinedDarkTheme = merge(
     MD3DarkThemeWithAndroidCustomization,
-    DarkTheme
+    DarkTheme,
   );
 
   // Set the light or dark theme based on the system preference

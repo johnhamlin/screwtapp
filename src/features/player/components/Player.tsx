@@ -1,16 +1,16 @@
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 import { Sound } from 'expo-av/build/Audio';
 import { useEffect, useState } from 'react';
-import { Button, View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { Button } from 'react-native';
+import { Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TrackPlayer from 'react-native-track-player';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '@/store';
-
 import { SetupService } from '../services';
 import { setPlayerReady } from '../slices/playerSlice';
+
+import { RootState } from '@/store';
 
 export default function Player() {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ export default function Player() {
   console.log({ sound });
   // console.log({ dir, file });
   const { dir, file } = useSelector(
-    (state: RootState) => state.player.playerProps
+    (state: RootState) => state.player.playerProps,
   );
 
   async function playSound() {
@@ -60,7 +60,7 @@ export default function Player() {
         {
           uri: 'https://archive.org' + dir + '/' + encodeURIComponent(file),
         },
-        { shouldPlay: true }
+        { shouldPlay: true },
       );
       setSound(sound);
 
@@ -114,8 +114,8 @@ function useSetupPlayer() {
       await SetupService();
       if (unmounted) return;
       setPlayerReady(true);
-      const queue = await TrackPlayer.getQueue();
-      if (unmounted) return;
+      // const queue = await TrackPlayer.getQueue();
+      // if (unmounted) return;
       // if (queue.length <= 0) {
       //   await QueueInitialTracksService();
       // }
