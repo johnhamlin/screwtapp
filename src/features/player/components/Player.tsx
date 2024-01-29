@@ -1,9 +1,8 @@
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 import { Sound } from 'expo-av/build/Audio';
 import { useEffect, useState } from 'react';
-import { Button } from 'react-native';
+import { Button, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import TrackPlayer from 'react-native-track-player';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -92,16 +91,16 @@ export default function Player() {
       : undefined;
   }, [sound]);
   return (
-    <SafeAreaView
+    <View
       // TODO: Figure out a better way to include theme into Nativewind
-      className="bg-[#f3edf6] dark:bg-[#2c2831]"
+      className="bg-[#f3edf6] dark:bg-[#2c2831] pb-5"
       // style={{ backgroundColor: theme.colors.elevation.level2 }}
     >
       <Button title="play with rntp" onPress={rntpPlay} />
       {file ? <Text>Now Playing {file}</Text> : null}
       {/* <Button onPress={playSound}>Load and Play Sound</Button> */}
       <Button title="Play/Pause" onPress={playPauseSound} />
-    </SafeAreaView>
+    </View>
   );
 }
 

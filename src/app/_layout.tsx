@@ -26,6 +26,7 @@ import { PlaybackService } from '@/features/player/services';
 import { store } from '@/store';
 
 if (__DEV__) {
+  // @ts-ignore
   import('ReactotronConfig').then(() => console.log('Reactotron Configured'));
 }
 
