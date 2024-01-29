@@ -32,21 +32,16 @@ export default function Mixtape() {
 
   // TODO: This works, but needs to be refactored because it doesn't work the way I intended it to. It's an impure function, pulling from the larger state
   const setTrackPlaying = async ({
-    dir,
-    name: file,
+    // dir,
+    // name: file,
     index,
   }: Pick<archiveApiTrack, 'dir' | 'name' | 'title' | 'artist' | 'length'> & {
     index: number;
   }) => {
-    // Old Redux logic. Will likely refactor once I finish switch to RNTP
-    // dispatch(setPlayerProps({ dir, file }));
-
     // trackList should be defined or else user couldn't have tapped on a track to play it
-
     if (!trackList) return;
-    const queue: rntpTrack[] = trackList.slice(index).map(current => {
-      console.log(current.title);
-
+    // Transform Archive.org API formatted track list into RNTP format
+    const queue: rntpTrack[] = trackList.map(current => {
       return {
         url:
           'https://archive.org' +
@@ -61,10 +56,12 @@ export default function Mixtape() {
       };
     });
 
-    console.log(queue);
+    // Set the queue, starting with the track the user selected and begin playing
+    await TrackPlayer.setQueue(queue.slice(index));
+    await TrackPlayer.play();
 
-    await TrackPlayer.setQueue(queue);
-    TrackPlayer.play();
+    // Add tracks before the one the user selected to the queue asynchronously, so the user can use PlaybackButtons to skip backward in the queue
+    TrackPlayer.add(queue.slice(0, index));
   };
 
   return (
