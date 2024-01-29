@@ -5,24 +5,66 @@ import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
-import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
-import { setPlayerProps } from '@/features/player/slices/playerSlice';
+import {
+  useGetMixtapeQuery,
+  useGetThumbnailQuery,
+} from '@/features/mixtapeList/slices/mixtapeListApi';
+
+import TrackPlayer, { Track as rntpTrack } from 'react-native-track-player';
 
 dayjs.extend(utc);
 
 type MixtapeListProps = {
-  item: Track;
+  item: archiveApiTrack;
   index: number;
 };
 
 export default function Mixtape() {
   const { identifier } = useLocalSearchParams();
-  const { data, error, isLoading } = useGetMixtapeQuery(identifier as string);
+  const {
+    data: trackList,
+    error,
+    isLoading,
+  } = useGetMixtapeQuery(identifier as string);
+  const artwork = useGetThumbnailQuery(identifier as string);
 
   const dispatch = useDispatch();
 
-  const setTrackPlaying = ({ dir, file }: PlayerProps) => {
-    dispatch(setPlayerProps({ dir, file }));
+  // TODO: This works, but needs to be refactored because it doesn't work the way I intended it to. It's an impure function, pulling from the larger state
+  const setTrackPlaying = async ({
+    dir,
+    name: file,
+    index,
+  }: Pick<archiveApiTrack, 'dir' | 'name' | 'title' | 'artist' | 'length'> & {
+    index: number;
+  }) => {
+    // Old Redux logic. Will likely refactor once I finish switch to RNTP
+    // dispatch(setPlayerProps({ dir, file }));
+
+    // trackList should be defined or else user couldn't have tapped on a track to play it
+
+    if (!trackList) return;
+    const queue: rntpTrack[] = trackList.slice(index).map(current => {
+      console.log(current.title);
+
+      return {
+        url:
+          'https://archive.org' +
+          current.dir +
+          '/' +
+          encodeURIComponent(current.name),
+        title: current.title,
+        artist: current.artist,
+        duration: current.length,
+        // TODO: This may be a lie… RTK Query may return an object
+        artwork: 'https://archive.org/services/img/' + identifier,
+      };
+    });
+
+    console.log(queue);
+
+    await TrackPlayer.setQueue(queue);
+    TrackPlayer.play();
   };
 
   return (
@@ -33,7 +75,7 @@ export default function Mixtape() {
     >
       <Stack.Screen
         options={{
-          title: data ? data[0].album : '',
+          title: trackList ? trackList[0].album : '',
           headerBackTitleVisible: false,
         }}
       />
@@ -41,15 +83,21 @@ export default function Mixtape() {
         <Text>Oh no! Error</Text>
       ) : isLoading ? (
         <ActivityIndicator size="large" />
-      ) : data ? (
+      ) : trackList ? (
         <FlatList
           className="w-full pl-5"
-          data={data}
+          data={trackList}
           renderItem={({ item: mixtape, index }: MixtapeListProps) => (
-            // TODO: Wrap this in a link
             <Pressable
               onPress={() =>
-                setTrackPlaying({ dir: mixtape.dir, file: mixtape.name })
+                setTrackPlaying({
+                  dir: mixtape.dir,
+                  name: mixtape.name,
+                  title: mixtape.title,
+                  artist: mixtape.artist,
+                  length: mixtape.length,
+                  index,
+                })
               }
             >
               <List.Item
@@ -62,7 +110,7 @@ export default function Mixtape() {
               <Divider />
             </Pressable>
           )}
-          keyExtractor={(item: Track) => item.md5}
+          keyExtractor={(item: archiveApiTrack) => item.md5}
         />
       ) : null}
     </View>

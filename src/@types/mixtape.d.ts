@@ -12,7 +12,7 @@ interface PlayerProps {
   file: string | null;
 }
 
-interface Track {
+interface archiveApiTrack {
   name: string;
   dir: string;
   source: string;

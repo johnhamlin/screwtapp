@@ -102,11 +102,11 @@ export const mixtapeListApi = createApi({
       query: identifier => `metadata/${identifier}`,
     }),
 
-    getMixtape: builder.query<Track[], string>({
+    getMixtape: builder.query<archiveApiTrack[], string>({
       query: (identifier: string) => `metadata/${identifier}`,
       transformResponse: (response: MixtapeMetadataResponse) => {
         const tracks = response.files.filter(
-          file => Object.hasOwn(file, 'length')
+          file => Object.hasOwn(file, 'length'),
           // This type assertion is kind of dangerous, but I know I've filtered the MixtapeFiles down to just RawTracks (https://typescript.tv/errors/#TS2352)
         ) as unknown as RawTrack[];
 
