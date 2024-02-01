@@ -20,6 +20,8 @@ import {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TrackPlayer from 'react-native-track-player';
 import { Provider as ReduxProvider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import { FooterPlayer } from '@/features/player/components';
 import { PlaybackService, SetupService } from '@/features/player/services';
@@ -65,20 +67,22 @@ export function RootLayout() {
 
   return (
     <ReduxProvider store={store}>
-      <PaperProvider theme={theme}>
-        <ThemeProvider value={theme}>
-          <SafeAreaProvider>
-            <Stack>
-              <Stack.Screen name="index" options={{}} />
-              <Stack.Screen
-                name="player"
-                options={{ presentation: 'modal', headerShown: false }}
-              />
-            </Stack>
-            <FooterPlayer />
-          </SafeAreaProvider>
-        </ThemeProvider>
-      </PaperProvider>
+      <PersistGate loading={null} persistor={persistStore(store)}>
+        <PaperProvider theme={theme}>
+          <ThemeProvider value={theme}>
+            <SafeAreaProvider>
+              <Stack>
+                <Stack.Screen name="index" options={{}} />
+                <Stack.Screen
+                  name="player"
+                  options={{ presentation: 'modal', headerShown: false }}
+                />
+              </Stack>
+              <FooterPlayer />
+            </SafeAreaProvider>
+          </ThemeProvider>
+        </PaperProvider>
+      </PersistGate>
     </ReduxProvider>
   );
 }
