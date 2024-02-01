@@ -23,7 +23,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 
 import { FooterPlayer } from '@/features/player/components';
 import { PlaybackService, SetupService } from '@/features/player/services';
-import { store } from '@/store';
+import { store } from '@/redux-store';
 
 if (__DEV__) {
   // @ts-ignore
