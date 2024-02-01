@@ -17,7 +17,7 @@ export const PlayerControls: React.FC = () => {
         <TouchableWithoutFeedback onPress={performSkipToPrevious}>
           <FontAwesome6 name="backward" size={30} color="white" />
         </TouchableWithoutFeedback>
-        <PlayPauseButton />
+        <PlayPauseButton mode="modal" />
         <TouchableWithoutFeedback onPress={performSkipToNext}>
           <FontAwesome6 name="forward" size={30} color="white" />
         </TouchableWithoutFeedback>

@@ -6,9 +6,11 @@ export function TrackInfo() {
   const track = useActiveTrack();
   return (
     <View style={styles.container}>
-      <Image style={styles.artwork} source={{ uri: track?.artwork }} />
-      <Text style={styles.titleText}>{track?.title}</Text>
-      <Text style={styles.artistText}>{track?.artist}</Text>
+      {track?.artwork && (
+        <Image style={styles.artwork} source={{ uri: track?.artwork }} />
+      )}
+      {track?.title && <Text style={styles.titleText}>{track?.title}</Text>}
+      {track?.artist && <Text style={styles.artistText}>{track?.artist}</Text>}
     </View>
   );
 }

@@ -3,14 +3,9 @@ import utc from 'dayjs/plugin/utc';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
-
-import {
-  useGetMixtapeQuery,
-  useGetThumbnailQuery,
-} from '@/features/mixtapeList/slices/mixtapeListApi';
-
 import TrackPlayer, { Track as rntpTrack } from 'react-native-track-player';
+
+import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
 
 dayjs.extend(utc);
 
@@ -26,11 +21,8 @@ export default function Mixtape() {
     error,
     isLoading,
   } = useGetMixtapeQuery(identifier as string);
-  const artwork = useGetThumbnailQuery(identifier as string);
 
-  const dispatch = useDispatch();
-
-  // TODO: This works, but needs to be refactored because it doesn't work the way I intended it to. It's an impure function, pulling from the larger state
+  // TODO: This is an impure function… do I care to change that?
   const setTrackPlaying = async ({
     // dir,
     // name: file,

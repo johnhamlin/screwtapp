@@ -11,7 +11,7 @@ dayjs.extend(utc);
 const THUMB_URL = 'https://archive.org/services/img/';
 // ctrl-cmd-z to open menu in simulator
 
-export default function App() {
+export default function Home() {
   const { data, error, isLoading } = useGetMixtapeListQuery('');
 
   return (

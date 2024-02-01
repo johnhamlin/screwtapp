@@ -8,7 +8,11 @@ import {
 } from 'react-native';
 import TrackPlayer, { useIsPlaying } from 'react-native-track-player';
 
-export const PlayPauseButton: React.FC = () => {
+type PlayPauseButtonProps = {
+  mode: 'footer' | 'modal';
+};
+
+export const PlayPauseButton = ({ mode }: PlayPauseButtonProps) => {
   const { playing, bufferingDuringPlay } = useIsPlaying();
 
   return (
@@ -21,7 +25,7 @@ export const PlayPauseButton: React.FC = () => {
         >
           <FontAwesome6
             name={playing ? 'pause' : 'play'}
-            size={48}
+            size={mode === 'modal' ? 48 : 36}
             color="white"
           />
         </TouchableWithoutFeedback>
