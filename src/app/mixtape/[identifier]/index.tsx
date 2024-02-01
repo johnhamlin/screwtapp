@@ -42,6 +42,7 @@ export default function Mixtape() {
           encodeURIComponent(current.name),
         title: current.title,
         artist: current.artist,
+        album: current.album,
         duration: current.length,
         // TODO: This may be a lie… RTK Query may return an object
         artwork: 'https://archive.org/services/img/' + identifier,
@@ -91,6 +92,7 @@ export default function Mixtape() {
             >
               <List.Item
                 title={mixtape.title}
+                description={mixtape.artist}
                 left={() => <Text>{index + 1}</Text>}
                 right={() => (
                   <Text>{dayjs.utc(mixtape.length * 1000).format('m:ss')}</Text>

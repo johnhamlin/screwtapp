@@ -3,7 +3,8 @@ import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { useActiveTrack } from 'react-native-track-player';
 
-import { PlayPauseButton, Spacer } from '@/features/player/components';
+import { PlayPauseButton } from './PlayPauseButton';
+import { Spacer } from './Spacer';
 
 export default function FooterPlayer() {
   const theme = useTheme();

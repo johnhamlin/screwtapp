@@ -1,7 +1,8 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import { useActiveTrack } from 'react-native-track-player';
 
 import {
   PlayerControls,
@@ -11,23 +12,26 @@ import {
 
 export default function Player() {
   const theme = useTheme();
+  const track = useActiveTrack();
 
   return (
     <>
-      <View
-        style={{
-          ...styles.closeModalContainer,
-          // backgroundColor: theme.colors.elevation.level2,
+      <Stack.Screen
+        options={{
+          // animation: 'flip',
+          headerLeft: () => (
+            <Pressable onPress={() => router.back()}>
+              <FontAwesome
+                name="angle-down"
+                size={32}
+                color={theme.colors.onSurface}
+              />
+            </Pressable>
+          ),
+          title: track?.album,
         }}
-      >
-        <Pressable onPress={() => router.back()}>
-          <FontAwesome
-            name="angle-down"
-            size={32}
-            color={theme.colors.onSurface}
-          />
-        </Pressable>
-      </View>
+      />
+
       <View
         // className="bg-[#f3edf6] dark:bg-[#2c2831] pb-5"
         style={{
@@ -52,9 +56,5 @@ const styles = StyleSheet.create({
   progressContainer: {
     flex: 1,
     flexDirection: 'row',
-  },
-  closeModalContainer: {
-    marginTop: 18,
-    marginLeft: 18,
   },
 });
