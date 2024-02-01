@@ -10,11 +10,12 @@ import * as Sentry from '@sentry/react-native';
 import merge from 'deepmerge';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { useColorScheme } from 'react-native';
+import { View, useColorScheme } from 'react-native';
 import {
   MD3DarkTheme,
   MD3LightTheme,
   PaperProvider,
+  Text,
   adaptNavigationTheme,
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -67,7 +68,16 @@ export function RootLayout() {
 
   return (
     <ReduxProvider store={store}>
-      <PersistGate loading={null} persistor={persistStore(store)}>
+      <PersistGate
+        loading={
+          <View
+            style={{ backgroundColor: 'red', height: '100%', width: '100%' }}
+          >
+            <Text>Loading…</Text>
+          </View>
+        }
+        persistor={persistStore(store)}
+      >
         <PaperProvider theme={theme}>
           <ThemeProvider value={theme}>
             <SafeAreaProvider>
