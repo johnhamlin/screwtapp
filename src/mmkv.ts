@@ -1,5 +1,5 @@
+import { Storage } from '@johnhamlin/redux-persist/es/types';
 import { MMKV } from 'react-native-mmkv';
-import { Storage } from 'redux-persist/es/types';
 
 export const storage = new MMKV();
 

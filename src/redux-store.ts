@@ -1,5 +1,3 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
 import {
   FLUSH,
   PAUSE,
@@ -9,7 +7,9 @@ import {
   REHYDRATE,
   persistReducer,
   persistStore,
-} from 'redux-persist';
+} from '@johnhamlin/redux-persist';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { reduxStorage } from './mmkv';
 

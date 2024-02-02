@@ -1,5 +1,6 @@
 import '@/styles/global.css';
 
+import { PersistGate } from '@johnhamlin/redux-persist/integration/react';
 import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
 import {
   DarkTheme as NavigationDarkTheme,
@@ -21,7 +22,6 @@ import {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TrackPlayer from 'react-native-track-player';
 import { Provider as ReduxProvider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 
 import { FooterPlayer } from '@/features/player/components';
 import { PlaybackService, SetupService } from '@/features/player/services';
