@@ -32,3 +32,20 @@ interface archiveApiTrack {
   artist: string;
   genre: string;
 }
+interface Metadata {
+  identifier: string;
+  creator: string;
+  date: string;
+  description: string;
+  language: string;
+  mediatype: string;
+  scanner: string;
+  subject: string[];
+  title: string;
+  year: string;
+  uploader: string;
+  publicdate: string;
+  addeddate: string;
+  curation: string;
+  collection: string[];
+}

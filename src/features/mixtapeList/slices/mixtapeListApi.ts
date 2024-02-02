@@ -1,9 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const COLLECTION_URL =
-  'https://archive.org/services/search/v1/scrape?fields=title,date,identifier,downloads,creator&q=collection:dj-screw-discography';
-const THUMB_URL = 'https://archive.org/services/img/';
-
 interface MixtapeListResponse {
   items: Mixtape[];
   count: number;
@@ -66,24 +62,6 @@ interface RawTrack {
   track: string;
   artist: string;
   genre: string;
-}
-
-export interface Metadata {
-  identifier: string;
-  creator: string;
-  date: string;
-  description: string;
-  language: string;
-  mediatype: string;
-  scanner: string;
-  subject: string[];
-  title: string;
-  year: string;
-  uploader: string;
-  publicdate: string;
-  addeddate: string;
-  curation: string;
-  collection: string[];
 }
 
 export const mixtapeListApi = createApi({
