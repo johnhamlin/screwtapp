@@ -21,12 +21,11 @@ import {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TrackPlayer from 'react-native-track-player';
 import { Provider as ReduxProvider } from 'react-redux';
-import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { FooterPlayer } from '@/features/player/components';
 import { PlaybackService, SetupService } from '@/features/player/services';
-import { store } from '@/redux-store';
+import { persistor, store } from '@/redux-store';
 
 if (__DEV__) {
   // @ts-ignore
@@ -76,7 +75,7 @@ export function RootLayout() {
             <Text>Loading…</Text>
           </View>
         }
-        persistor={persistStore(store)}
+        persistor={persistor}
       >
         <PaperProvider theme={theme}>
           <ThemeProvider value={theme}>
