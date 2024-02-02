@@ -20,6 +20,7 @@ const persistConfig = {
   key: 'root',
   storage: reduxStorage,
 };
+console.log('setting up redux store');
 
 // Combine the reducers so they can be persisted
 const reducers = combineReducers({
