@@ -1,3 +1,4 @@
+import { FlashList } from '@shopify/flash-list';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Link, Stack } from 'expo-router';
