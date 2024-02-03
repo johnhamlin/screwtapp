@@ -10,7 +10,7 @@ import {
 import * as Sentry from '@sentry/react-native';
 import merge from 'deepmerge';
 import { Stack, useNavigationContainerRef } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import {
   MD3DarkTheme,
@@ -22,9 +22,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TrackPlayer from 'react-native-track-player';
 import { Provider as ReduxProvider } from 'react-redux';
 
+import { useSetupPlayer } from '../features/player/hooks/useSetupPlayer';
+
 import { FooterPlayer } from '@/features/player/components';
-import { PlaybackService, SetupService } from '@/features/player/services';
-import { persistor, store } from '@/redux-store';
+import { playbackService } from '@/features/player/services';
+import { persistor, reduxStore } from '@/reduxStore';
 
 if (__DEV__) {
   // @ts-ignore
@@ -32,7 +34,7 @@ if (__DEV__) {
 }
 
 // Register the react-native-track-player playback service
-TrackPlayer.registerPlaybackService(() => PlaybackService);
+TrackPlayer.registerPlaybackService(() => playbackService);
 
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
@@ -65,7 +67,7 @@ export function RootLayout() {
   useSetupPlayer();
 
   return (
-    <ReduxProvider store={store}>
+    <ReduxProvider store={reduxStore}>
       <PersistGate
         // Obnoxious loading screen for debugging
         // loading={
@@ -84,7 +86,7 @@ export function RootLayout() {
                 <Stack.Screen name="index" options={{}} />
                 <Stack.Screen
                   name="player"
-                  options={{ presentation: 'modal', headerShown: false }}
+                  options={{ presentation: 'modal' }}
                 />
               </Stack>
               <FooterPlayer />
@@ -126,28 +128,6 @@ function useCombinedTheme() {
   // Set the light or dark theme based on the system preference
   const colorScheme = useColorScheme();
   return colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
-}
-
-function useSetupPlayer() {
-  const [playerReady, setPlayerReady] = useState<boolean>(false);
-
-  useEffect(() => {
-    let unmounted = false;
-    (async () => {
-      await SetupService();
-      if (unmounted) return;
-      setPlayerReady(true);
-      // const queue = await TrackPlayer.getQueue();
-      // if (unmounted) return;
-      // if (queue.length <= 0) {
-      //   await QueueInitialTracksService();
-      // }
-    })();
-    return () => {
-      unmounted = true;
-    };
-  }, []);
-  return playerReady;
 }
 
 export default Sentry.wrap(RootLayout);

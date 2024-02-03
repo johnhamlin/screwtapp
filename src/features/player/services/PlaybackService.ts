@@ -1,6 +1,23 @@
 import TrackPlayer, { Event } from 'react-native-track-player';
 
-export async function PlaybackService() {
+import { setQueueIndex } from '../slices/playerSlice';
+
+import { RootState, reduxStore } from '@/reduxStore';
+
+export async function playbackService() {
+  TrackPlayer.addEventListener(
+    Event.PlaybackActiveTrackChanged,
+    ({ index }) => {
+      if (index === undefined) return;
+
+      const state: RootState = reduxStore.getState();
+      // Don't run on initial load
+      if (state.player.isPlayerReady) {
+        reduxStore.dispatch(setQueueIndex(index));
+      }
+    },
+  );
+
   TrackPlayer.addEventListener(Event.RemotePause, () => {
     console.log('Event.RemotePause');
     TrackPlayer.pause();
@@ -72,12 +89,14 @@ export async function PlaybackService() {
     console.log('Event.MetadataCommonReceived', event);
   });
 
-  TrackPlayer.addEventListener(Event.PlaybackProgressUpdated, event => {
-    console.log('Event.PlaybackProgressUpdated', event);
-  });
+  // This clogs up the logs
+  // TrackPlayer.addEventListener(Event.PlaybackProgressUpdated, event => {
+  //   console.log('Event.PlaybackProgressUpdated', event);
+  // });
 
   TrackPlayer.addEventListener(
     Event.PlaybackMetadataReceived,
+    // This came from the example app
     async ({ title, artist }) => {
       const activeTrack = await TrackPlayer.getActiveTrack();
       TrackPlayer.updateNowPlayingMetadata({
@@ -85,6 +104,6 @@ export async function PlaybackService() {
         title: activeTrack?.title,
         artwork: activeTrack?.artwork,
       });
-    }
+    },
   );
 }

@@ -1,24 +1,24 @@
 import { Storage } from '@johnhamlin/redux-persist/es/types';
 import { MMKV } from 'react-native-mmkv';
 
-export const storage = new MMKV();
+export const MmkvStorage = new MMKV();
 
-export const reduxStorage: Storage = {
+export const reduxMmkvStorage: Storage = {
   setItem: (key, value) => {
-    storage.set(key, value);
+    MmkvStorage.set(key, value);
     return Promise.resolve(true);
   },
   getItem: key => {
-    const value = storage.getString(key);
+    const value = MmkvStorage.getString(key);
     return Promise.resolve(value);
   },
   removeItem: key => {
-    storage.delete(key);
+    MmkvStorage.delete(key);
     return Promise.resolve();
   },
   // Added this to fix type error
   getAllKeys: () => {
-    const allKeys = storage.getAllKeys();
+    const allKeys = MmkvStorage.getAllKeys();
     return Promise.resolve(allKeys);
   },
 };

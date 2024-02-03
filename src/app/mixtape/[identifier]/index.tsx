@@ -4,8 +4,10 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
 import TrackPlayer, { Track as rntpTrack } from 'react-native-track-player';
+import { useDispatch } from 'react-redux';
 
 import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
+import { setQueue, setQueueIndex } from '@/features/player/slices/playerSlice';
 
 dayjs.extend(utc);
 
@@ -21,6 +23,7 @@ export default function Mixtape() {
     error,
     isLoading,
   } = useGetMixtapeQuery(identifier as string);
+  const dispatch = useDispatch();
 
   // TODO: This is an impure function… do I care to change that?
   const setTrackPlaying = async ({
@@ -54,7 +57,13 @@ export default function Mixtape() {
     await TrackPlayer.play();
 
     // Add tracks before the one the user selected to the queue asynchronously, so the user can use PlaybackButtons to skip backward in the queue
-    TrackPlayer.add(queue.slice(0, index));
+    // Doing it this way because loading the queue and then jumping to the correct track is slow and janky on the UI
+    await TrackPlayer.add(queue.slice(0, index));
+
+    // Save the queue to Redux to persist between sessions
+    dispatch(setQueue(await TrackPlayer.getQueue()));
+    // This is always 0 because we're starting the queue at the track the user selected
+    dispatch(setQueueIndex(0));
   };
 
   return (

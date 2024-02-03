@@ -41,7 +41,8 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "14.1.0",
     "react-native-track-player": "^4.0.1",
-    "react-redux": "^9.1.0"
+    "react-redux": "^9.1.0",
+    "expo-file-system": "~16.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -52,6 +53,7 @@
     "eslint-plugin-reactotron": "^0.1.2",
     "prettier": "^3.2.4",
     "reactotron-react-native": "^5.0.5",
+    "reactotron-react-native-mmkv": "^0.2.3",
     "reactotron-redux": "^3.1.7",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.1.3"

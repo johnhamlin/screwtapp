@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "screwtapp",
-    "slug": "screwtapp",
+    "name": "ScrewTapp",
+    "slug": "ScrewTapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -12,18 +12,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "in.johnhamlin.screwtapp",
+      "bundleIdentifier": "in.johnhaml.screwtapp",
       "userInterfaceStyle": "automatic",
       "infoPlist": {
-        "UIBackgroundModes": [
-          "audio"
-        ]
-      }
+        "UIBackgroundModes": ["audio"]
+      },
+      "associatedDomains": ["applinks:screwtapp.com"]
     },
     "android": {
       "adaptiveIcon": {
@@ -32,9 +29,7 @@
       },
       "package": "com.johnhamlin.screwtapp",
       "userInterfaceStyle": "automatic",
-      "permissions": [
-        "WAKE_LOCK"
-      ]
+      "permissions": ["WAKE_LOCK"]
     },
     "web": {
       "bundler": "metro",

@@ -6,14 +6,14 @@ import { FlatList, Image, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
 
 import { useGetMixtapeListQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
-import { reduxStorage } from '@/mmkv';
+import { reduxMmkvStorage } from '@/mmkv';
 
 dayjs.extend(utc);
 
 const THUMB_URL = 'https://archive.org/services/img/';
 // ctrl-cmd-z to open menu in simulator
-console.log(reduxStorage.getAllKeys());
-console.log(reduxStorage.getItem('persist:root'));
+// console.log(reduxStorage.getAllKeys());
+// console.log(reduxStorage.getItem('persist:root'));
 
 export default function Home() {
   const { data, error, isLoading } = useGetMixtapeListQuery('');

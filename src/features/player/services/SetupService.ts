@@ -26,7 +26,7 @@ const setupPlayer = async (
   }
 };
 
-export const SetupService = async () => {
+export const setupService = async () => {
   await setupPlayer({
     autoHandleInterruptions: true,
   });
