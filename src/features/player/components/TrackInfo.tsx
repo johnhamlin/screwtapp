@@ -1,13 +1,39 @@
+import { Link, router } from 'expo-router';
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-paper';
 import { useActiveTrack } from 'react-native-track-player';
 
 export function TrackInfo() {
   const track = useActiveTrack();
+  // Take the string after the last slash in the URL
+  const identifier = track?.artwork?.split('/').pop();
   return (
     <View style={styles.container}>
+      <View style={{ backgroundColor: 'red' }}>
+        {/* <Link
+          asChild
+          href={{
+            pathname: 'mixtape/[identifier]',
+            params: { identifier },
+          }}
+        >
+          <>
+            {console.log('TrackInfo.tsx identifier:', identifier)}
+            <Text>Go to Mixtape</Text>
+          </> */}
+        {/* </Link> */}
+      </View>
       {track?.artwork && (
-        <Image style={styles.artwork} source={{ uri: track?.artwork }} />
+        <Pressable
+          onPress={() => {
+            console.log('TrackInfo.tsx identifier:', identifier);
+
+            router.navigate('../');
+          }}
+        >
+          <Image style={styles.artwork} source={{ uri: track?.artwork }} />
+        </Pressable>
       )}
       {track?.title && <Text style={styles.titleText}>{track?.title}</Text>}
       {track?.artist && <Text style={styles.artistText}>{track?.artist}</Text>}

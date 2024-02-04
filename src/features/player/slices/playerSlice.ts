@@ -37,7 +37,6 @@ export const playerSlice = createSlice({
       state.queue = action.payload;
     },
     setQueueIndex: (state, action: PayloadAction<number>) => {
-      console.trace();
       state.queueIndex = action.payload;
     },
   },

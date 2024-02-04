@@ -3,10 +3,11 @@ import utc from 'dayjs/plugin/utc';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
-import TrackPlayer, { Track as rntpTrack } from 'react-native-track-player';
+import type { Track as rntpTrack } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 
 import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
+import { fastQueueWithIndex } from '@/features/player/services/';
 import { setQueue, setQueueIndex } from '@/features/player/slices/playerSlice';
 
 dayjs.extend(utc);
@@ -52,25 +53,18 @@ export default function Mixtape() {
       };
     });
 
-    // Set the queue, starting with the track the user selected and begin playing
-    await TrackPlayer.setQueue(queue.slice(index));
-    await TrackPlayer.play();
+    await fastQueueWithIndex({ queue, index, shouldPlay: true });
 
-    // Add tracks before the one the user selected to the queue asynchronously, so the user can use PlaybackButtons to skip backward in the queue
-    // Doing it this way because loading the queue and then jumping to the correct track is slow and janky on the UI
-    await TrackPlayer.add(queue.slice(0, index));
-
-    // Save the queue to Redux to persist between sessions
-    dispatch(setQueue(await TrackPlayer.getQueue()));
-    // This is always 0 because we're starting the queue at the track the user selected
-    dispatch(setQueueIndex(0));
+    // Save the queue and index to Redux to persist between sessions
+    dispatch(setQueue(queue));
+    dispatch(setQueueIndex(index));
   };
 
   return (
     <View
       // Use stylesheet because nativewinds beta has a bug
       style={styles.container}
-      className="items-center content-center flex-1"
+      // className="items-center content-center flex-1"
     >
       <Stack.Screen
         options={{
@@ -79,7 +73,13 @@ export default function Mixtape() {
         }}
       />
       {error ? (
-        <Text>Oh no! Error</Text>
+        <>
+          <Text>
+            There was an issue loading the mixtapes. Please close the app and
+            try again.
+          </Text>
+          {console.error(error)}
+        </>
       ) : isLoading ? (
         <ActivityIndicator size="large" />
       ) : trackList ? (
