@@ -1,8 +1,9 @@
 import { FlashList } from '@shopify/flash-list';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { Image } from 'expo-image';
 import { Link, Stack } from 'expo-router';
-import { FlatList, Image, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
 
 import { useGetMixtapeListQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
@@ -63,7 +64,7 @@ export default function Home() {
                     )}
                     left={() => (
                       <Image
-                        className="w-14 h-14"
+                        style={styles.albumThumbnail}
                         alt="album artwork"
                         source={{
                           uri: THUMB_URL + mixtape.identifier,
@@ -87,5 +88,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  albumThumbnail: {
+    width: 56,
+    height: 56,
   },
 });
