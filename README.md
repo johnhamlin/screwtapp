@@ -1,5 +1,3 @@
-
-
 <p align='center'>
   <img src='.github/resources/screwtapp.png' alt='ScrewTapp Logo' width=250 />
   <h1 align='center'>ScrewTapp</h1>
@@ -14,9 +12,13 @@
 There were lots of apps to stream the jam band shows on archive.org, but none for the trove of DJ Screw mixtapes. So I made one. Currently in alpha, but you can try out the code with Expo Go.
 
 ## Built With
-- 📱 Expo / React Native
-- 🗃️ Redux / RTK Query
+
+- 📱 React Native / Expo
+- ▶️ React Native Track Player
 - 🚦 Expo Router
+- 🗃️ Redux / RTK Query
+- ⚡️ FlashList
+- 📄 React Native Paper
 - 📘 TypeScript
 
 Sure, here's a basic structure for your README.md file. You can replace the placeholders with the actual information about your project.
