@@ -26,18 +26,14 @@ export default function Home() {
           title: 'ScrewTapp',
         }}
       />
-      <View
-        // This Nativewind style isn't working in the lattest beta
-        style={styles.container}
-        // className="flex items-center content-center flex-1"
-      >
+      <View style={styles.container}>
         {error ? (
           <Text>Oh no! Error</Text>
         ) : isLoading ? (
           <ActivityIndicator size="large" />
         ) : data ? (
           <FlatList
-            className="w-full pl-5"
+            style={styles.mixtapeList}
             // Load more on initial render so it fills the screen
             initialNumToRender={20}
             keyExtractor={item => item.identifier}
@@ -92,5 +88,9 @@ const styles = StyleSheet.create({
   albumThumbnail: {
     width: 56,
     height: 56,
+  },
+  mixtapeList: {
+    width: '100%',
+    paddingLeft: 20,
   },
 });

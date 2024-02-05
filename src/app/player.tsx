@@ -50,7 +50,6 @@ export default function Player() {
       />
 
       <View
-        // className="bg-[#f3edf6] dark:bg-[#2c2831] pb-5"
         style={{
           ...styles.container,
           // backgroundColor: theme.colors.elevation.level2,

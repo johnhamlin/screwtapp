@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ScrewTapp",
-    "slug": "ScrewTapp",
+    "slug": "screwtapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

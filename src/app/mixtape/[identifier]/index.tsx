@@ -61,11 +61,7 @@ export default function Mixtape() {
   };
 
   return (
-    <View
-      // Use stylesheet because nativewinds beta has a bug
-      style={styles.container}
-      // className="items-center content-center flex-1"
-    >
+    <View style={styles.container}>
       <Stack.Screen
         options={{
           title: trackList ? trackList[0].album : '',
@@ -84,7 +80,7 @@ export default function Mixtape() {
         <ActivityIndicator size="large" />
       ) : trackList ? (
         <FlatList
-          className="w-full pl-5"
+          style={styles.trackList}
           data={trackList}
           renderItem={({ item: mixtape, index }: MixtapeListProps) => (
             <Pressable
@@ -122,5 +118,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  trackList: {
+    width: '100%',
+    paddingLeft: 20,
   },
 });

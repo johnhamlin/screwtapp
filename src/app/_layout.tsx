@@ -1,5 +1,3 @@
-import '@/styles/global.css';
-
 import { PersistGate } from '@johnhamlin/redux-persist/integration/react';
 import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
 import {
