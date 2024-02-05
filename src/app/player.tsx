@@ -1,7 +1,7 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { Stack, router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { useTheme, Text } from 'react-native-paper';
 import { useActiveTrack } from 'react-native-track-player';
 
 import {
@@ -13,6 +13,7 @@ import {
 export default function Player() {
   const theme = useTheme();
   const track = useActiveTrack();
+  const identifier = track?.artwork?.split('/').pop();
 
   return (
     <>
@@ -29,6 +30,22 @@ export default function Player() {
             </Pressable>
           ),
           title: track?.album,
+          headerTitle: () => (
+            // Tap on the name of the mixtape to navigate to it
+            <Pressable
+              onPress={() => {
+                // close the modal with back
+                router.back();
+                // navigate to the mixtape
+                router.navigate({
+                  pathname: 'mixtape/[identifier]',
+                  params: { identifier },
+                });
+              }}
+            >
+              <Text>{track?.album}</Text>
+            </Pressable>
+          ),
         }}
       />
 

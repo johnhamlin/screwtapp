@@ -25,10 +25,12 @@
     "expo-av": "~13.10.4",
     "expo-constants": "~15.4.5",
     "expo-dev-client": "~3.3.8",
+    "expo-file-system": "~16.0.5",
     "expo-linking": "~6.2.2",
     "expo-router": "~3.4.6",
     "expo-status-bar": "~1.11.1",
     "expo-system-ui": "~2.9.3",
+    "lru-cache": "^10.2.0",
     "nativewind": "^4.0.23",
     "normalize-css-color": "^1.0.2",
     "react": "18.2.0",
@@ -41,8 +43,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "14.1.0",
     "react-native-track-player": "^4.0.1",
-    "react-redux": "^9.1.0",
-    "expo-file-system": "~16.0.5"
+    "react-redux": "^9.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

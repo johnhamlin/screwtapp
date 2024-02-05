@@ -1,4 +1,4 @@
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
@@ -10,26 +10,17 @@ export function TrackInfo() {
   const identifier = track?.artwork?.split('/').pop();
   return (
     <View style={styles.container}>
-      <View style={{ backgroundColor: 'red' }}>
-        {/* <Link
-          asChild
-          href={{
-            pathname: 'mixtape/[identifier]',
-            params: { identifier },
-          }}
-        >
-          <>
-            {console.log('TrackInfo.tsx identifier:', identifier)}
-            <Text>Go to Mixtape</Text>
-          </> */}
-        {/* </Link> */}
-      </View>
       {track?.artwork && (
+        // Tap on the artwork to navigate to the mixtape
         <Pressable
           onPress={() => {
-            console.log('TrackInfo.tsx identifier:', identifier);
-
-            router.navigate('../');
+            // close the modal with back
+            router.back();
+            // navigate to the mixtape
+            router.navigate({
+              pathname: 'mixtape/[identifier]',
+              params: { identifier },
+            });
           }}
         >
           <Image style={styles.artwork} source={{ uri: track?.artwork }} />
