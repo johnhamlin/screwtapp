@@ -24,7 +24,7 @@ import { useSetupPlayer } from '../features/player/hooks/useSetupPlayer';
 
 import { FooterPlayer } from '@/features/player/components';
 import { playbackService } from '@/features/player/services';
-import { persistor, reduxStore } from '@/reduxStore';
+import { reduxStore } from '@/reduxStore';
 
 if (__DEV__) {
   // @ts-ignore
@@ -66,7 +66,7 @@ export function RootLayout() {
 
   return (
     <ReduxProvider store={reduxStore}>
-      <PersistGate
+      {/* <PersistGate
         // Obnoxious loading screen for debugging
         // loading={
         //   <View
@@ -76,22 +76,19 @@ export function RootLayout() {
         //   </View>
         // }
         persistor={persistor}
-      >
-        <PaperProvider theme={theme}>
-          <ThemeProvider value={theme}>
-            <SafeAreaProvider>
-              <Stack>
-                <Stack.Screen name="index" options={{}} />
-                <Stack.Screen
-                  name="player"
-                  options={{ presentation: 'modal' }}
-                />
-              </Stack>
-              <FooterPlayer />
-            </SafeAreaProvider>
-          </ThemeProvider>
-        </PaperProvider>
-      </PersistGate>
+      > */}
+      <PaperProvider theme={theme}>
+        <ThemeProvider value={theme}>
+          <SafeAreaProvider>
+            <Stack>
+              <Stack.Screen name="index" options={{}} />
+              <Stack.Screen name="player" options={{ presentation: 'modal' }} />
+            </Stack>
+            <FooterPlayer />
+          </SafeAreaProvider>
+        </ThemeProvider>
+      </PaperProvider>
+      {/* </PersistGate> */}
     </ReduxProvider>
   );
 }

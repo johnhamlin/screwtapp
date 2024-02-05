@@ -6,6 +6,8 @@ import { Link, Stack } from 'expo-router';
 import { View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
 
+// import defaultAlbumThumb from '../../assets/images/defaultAlbumThumb.jpeg';
+
 import { useGetMixtapeListQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
 import { listStyles } from '@/styles';
 
@@ -28,9 +30,16 @@ export default function Home() {
       />
       <View style={listStyles.container}>
         {error ? (
-          <Text>Oh no! Error</Text>
+          <View style={listStyles.loadingContainer}>
+            <Text>
+              There was an issue loading the mixtapes. Please close the app and
+              try again.
+            </Text>
+          </View>
         ) : isLoading ? (
-          <ActivityIndicator size="large" />
+          <View style={listStyles.loadingContainer}>
+            <ActivityIndicator size="large" />
+          </View>
         ) : data ? (
           <FlashList
             // Load more on initial render so it fills the screen
@@ -61,6 +70,7 @@ export default function Home() {
                     )}
                     left={() => (
                       <Image
+                        placeholder="../../assets/images/defaultAlbumThumb.jpeg"
                         style={listStyles.albumThumbnail}
                         alt="album artwork"
                         source={{

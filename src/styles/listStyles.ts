@@ -15,4 +15,10 @@ export const listStyles = StyleSheet.create({
   title: {
     paddingRight: 18,
   },
+  // Can't use this styling for FlashList container because it breaks the layout
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

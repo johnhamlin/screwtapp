@@ -1,25 +1,25 @@
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-  persistReducer,
-  persistStore,
-} from '@johnhamlin/redux-persist';
+// import {
+//   FLUSH,
+//   PAUSE,
+//   PERSIST,
+//   PURGE,
+//   REGISTER,
+//   REHYDRATE,
+//   persistReducer,
+//   persistStore,
+// } from '@johnhamlin/redux-persist';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
-import { reduxMmkvStorage } from './mmkv';
+// import { reduxMmkvStorage } from './mmkv';
 
 import { mixtapeListApi } from '@/features/mixtapeList/slices/mixtapeListApi';
 import playerReducer from '@/features/player/slices/playerSlice';
 
-const persistConfig = {
-  key: 'root',
-  storage: reduxMmkvStorage,
-};
+// const persistConfig = {
+//   key: 'root',
+//   storage: reduxMmkvStorage,
+// };
 console.log('setting up redux store');
 
 // Combine the reducers so they can be persisted
@@ -28,16 +28,16 @@ const rootReducer = combineReducers({
   player: playerReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const reduxStore = configureStore({
-  reducer: persistedReducer,
+  reducer: rootReducer,
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        // ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(mixtapeListApi.middleware),
   enhancers: getDefaultEnhancers =>
@@ -49,7 +49,7 @@ export const reduxStore = configureStore({
 });
 
 // TODO: This may need to be a let
-export const persistor = persistStore(reduxStore);
+// export const persistor = persistStore(reduxStore);
 
 setupListeners(reduxStore.dispatch);
 
