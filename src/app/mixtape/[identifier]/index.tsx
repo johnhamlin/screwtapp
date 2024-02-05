@@ -1,3 +1,4 @@
+import { FlashList } from '@shopify/flash-list';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Stack, useLocalSearchParams } from 'expo-router';
@@ -9,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
 import { fastQueueWithIndex } from '@/features/player/services/';
 import { setQueue, setQueueIndex } from '@/features/player/slices/playerSlice';
+import { listStyles } from '@/styles';
 
 dayjs.extend(utc);
 
@@ -61,7 +63,7 @@ export default function Mixtape() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={listStyles.container}>
       <Stack.Screen
         options={{
           title: trackList ? trackList[0].album : '',
@@ -79,8 +81,8 @@ export default function Mixtape() {
       ) : isLoading ? (
         <ActivityIndicator size="large" />
       ) : trackList ? (
-        <FlatList
-          style={styles.trackList}
+        <FlashList
+          estimatedItemSize={64}
           data={trackList}
           renderItem={({ item: mixtape, index }: MixtapeListProps) => (
             <Pressable
@@ -96,7 +98,9 @@ export default function Mixtape() {
               }
             >
               <List.Item
+                style={listStyles.item}
                 title={mixtape.title}
+                titleStyle={listStyles.title}
                 description={mixtape.artist}
                 left={() => <Text>{index + 1}</Text>}
                 right={() => (
@@ -113,14 +117,14 @@ export default function Mixtape() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  trackList: {
-    width: '100%',
-    paddingLeft: 20,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   trackList: {
+//     width: '100%',
+//     paddingLeft: 20,
+//   },
+// });

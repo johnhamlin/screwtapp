@@ -3,11 +3,11 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Image } from 'expo-image';
 import { Link, Stack } from 'expo-router';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
 
 import { useGetMixtapeListQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
-import { reduxMmkvStorage } from '@/mmkv';
+import { listStyles } from '@/styles';
 
 dayjs.extend(utc);
 
@@ -26,16 +26,16 @@ export default function Home() {
           title: 'ScrewTapp',
         }}
       />
-      <View style={styles.container}>
+      <View style={listStyles.container}>
         {error ? (
           <Text>Oh no! Error</Text>
         ) : isLoading ? (
           <ActivityIndicator size="large" />
         ) : data ? (
-          <FlatList
-            style={styles.mixtapeList}
+          <FlashList
             // Load more on initial render so it fills the screen
-            initialNumToRender={20}
+            // initialNumToRender={20}
+            estimatedItemSize={84}
             keyExtractor={item => item.identifier}
             data={data}
             renderItem={({ item: mixtape }: { item: Mixtape }) => (
@@ -52,15 +52,16 @@ export default function Home() {
                 >
                   <List.Item
                     // word wrap for Title
+                    style={listStyles.item}
                     titleNumberOfLines={2}
                     title={mixtape.title}
-                    titleStyle={{ paddingRight: 18 }}
+                    titleStyle={listStyles.title}
                     right={() => (
                       <Text>{dayjs(mixtape.date).format('YYYY')}</Text>
                     )}
                     left={() => (
                       <Image
-                        style={styles.albumThumbnail}
+                        style={listStyles.albumThumbnail}
                         alt="album artwork"
                         source={{
                           uri: THUMB_URL + mixtape.identifier,
@@ -78,19 +79,3 @@ export default function Home() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  albumThumbnail: {
-    width: 56,
-    height: 56,
-  },
-  mixtapeList: {
-    width: '100%',
-    paddingLeft: 20,
-  },
-});
