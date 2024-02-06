@@ -5,8 +5,12 @@ import { Image } from 'expo-image';
 import { Link, Stack } from 'expo-router';
 import { View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 
-import { useGetMixtapeListQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
+import {
+  mixtapeListApi,
+  useGetMixtapeListQuery,
+} from '@/features/mixtapeList/slices/mixtapeListApi';
 import { listStyles } from '@/styles';
 
 dayjs.extend(utc);
@@ -17,7 +21,13 @@ const THUMB_URL = 'https://archive.org/services/img/';
 // console.log(reduxStorage.getItem('persist:root'));
 
 export default function Home() {
-  const { data, error, isLoading } = useGetMixtapeListQuery('');
+  const {
+    data: mixtapeListData,
+    error,
+    isLoading,
+    isFetching,
+  } = useGetMixtapeListQuery('');
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -35,13 +45,17 @@ export default function Home() {
           <View style={listStyles.loadingContainer}>
             <ActivityIndicator size="large" />
           </View>
-        ) : data ? (
+        ) : mixtapeListData ? (
           <FlashList
             // Load more on initial render so it fills the screen
             // initialNumToRender={20}
             estimatedItemSize={84}
             keyExtractor={item => item.identifier}
-            data={data}
+            data={mixtapeListData}
+            onRefresh={() => {
+              dispatch(mixtapeListApi.util.invalidateTags(['MixtapeList']));
+            }}
+            refreshing={isFetching}
             renderItem={({ item: mixtape }: { item: Mixtape }) => (
               <>
                 <Link

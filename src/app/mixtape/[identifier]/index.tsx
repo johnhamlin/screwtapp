@@ -2,7 +2,7 @@ import { FlashList } from '@shopify/flash-list';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
 import type { Track as rntpTrack } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';

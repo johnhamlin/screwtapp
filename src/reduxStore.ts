@@ -8,11 +8,8 @@ import {
   persistReducer,
   persistStore,
 } from '@johnhamlin/redux-persist';
-import { PersistConfig } from '@johnhamlin/redux-persist/es/types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import FilesystemStorage from 'redux-persist-filesystem-storage';
 
 import { reduxMmkvStorage } from './mmkv';
 

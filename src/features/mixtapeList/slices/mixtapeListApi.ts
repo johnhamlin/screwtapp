@@ -67,11 +67,19 @@ interface RawTrack {
 export const mixtapeListApi = createApi({
   reducerPath: 'mixtapeListApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://archive.org/' }),
+  tagTypes: ['MixtapeList'],
   endpoints: builder => ({
     getMixtapeList: builder.query({
       query: () =>
         'services/search/v1/scrape?fields=title,date,identifier,downloads,creator&q=collection:dj-screw-discography',
-      transformResponse: ({ items }: MixtapeListResponse, meta, arg) => items,
+      transformResponse: ({ items }: MixtapeListResponse, meta, arg) =>
+        items.map(item => ({
+          ...item,
+          title: item.title
+            .replace(/^DJ Screw - /, '')
+            .replace(/ \(\d{4}\)$/, ''),
+        })),
+      providesTags: ['MixtapeList'],
     }),
     getThumbnail: builder.query({
       query: identifier => `/services/img/${identifier}`,

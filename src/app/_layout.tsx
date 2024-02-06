@@ -1,6 +1,5 @@
 import { PersistGate } from '@johnhamlin/redux-persist/integration/react';
 import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
@@ -10,14 +9,12 @@ import * as Sentry from '@sentry/react-native';
 import merge from 'deepmerge';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useEffect } from 'react';
-import { View, useColorScheme } from 'react-native';
+import { useColorScheme } from 'react-native';
 import {
-  Text,
   MD3DarkTheme,
   MD3LightTheme,
   PaperProvider,
   adaptNavigationTheme,
-  ActivityIndicator,
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TrackPlayer from 'react-native-track-player';
@@ -62,11 +59,11 @@ export function RootLayout() {
     }
   }, [ref]);
 
-  useEffect(() => {
-    if (!AsyncStorage.getItem('isNotFirstLaunch')) {
-      persistor.persist();
-    }
-  }, [AsyncStorage.getItem('isNotFirstLaunch')]);
+  // useEffect(() => {
+  //   if (!AsyncStorage.getItem('isNotFirstLaunch')) {
+  //     persistor.persist();
+  //   }
+  // }, [AsyncStorage.getItem('isNotFirstLaunch')]);
 
   // Get the theme based on the user's system preferences
   const theme = useCombinedTheme();
