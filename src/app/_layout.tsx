@@ -1,5 +1,6 @@
 import { PersistGate } from '@johnhamlin/redux-persist/integration/react';
 import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
@@ -61,6 +62,12 @@ export function RootLayout() {
     }
   }, [ref]);
 
+  useEffect(() => {
+    if (!AsyncStorage.getItem('isNotFirstLaunch')) {
+      persistor.persist();
+    }
+  }, [AsyncStorage.getItem('isNotFirstLaunch')]);
+
   // Get the theme based on the user's system preferences
   const theme = useCombinedTheme();
 
@@ -69,7 +76,8 @@ export function RootLayout() {
 
   return (
     <ReduxProvider store={reduxStore}>
-      <PersistGate
+      {/* Disabling for now because it makes the initial load slow and I'm not having UI issues with loading it because mmkv is so fast */}
+      {/* <PersistGate
         // Obnoxious loading screen for debugging
         loading={
           <View style={listStyles.loadingContainer}>
@@ -77,22 +85,19 @@ export function RootLayout() {
           </View>
         }
         persistor={persistor}
-      >
-        <PaperProvider theme={theme}>
-          <ThemeProvider value={theme}>
-            <SafeAreaProvider>
-              <Stack>
-                <Stack.Screen name="index" options={{}} />
-                <Stack.Screen
-                  name="player"
-                  options={{ presentation: 'modal' }}
-                />
-              </Stack>
-              <FooterPlayer />
-            </SafeAreaProvider>
-          </ThemeProvider>
-        </PaperProvider>
-      </PersistGate>
+      > */}
+      <PaperProvider theme={theme}>
+        <ThemeProvider value={theme}>
+          <SafeAreaProvider>
+            <Stack>
+              <Stack.Screen name="index" options={{}} />
+              <Stack.Screen name="player" options={{ presentation: 'modal' }} />
+            </Stack>
+            <FooterPlayer />
+          </SafeAreaProvider>
+        </ThemeProvider>
+      </PaperProvider>
+      {/* </PersistGate> */}
     </ReduxProvider>
   );
 }

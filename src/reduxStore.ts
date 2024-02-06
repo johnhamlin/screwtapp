@@ -9,8 +9,10 @@ import {
   persistStore,
 } from '@johnhamlin/redux-persist';
 import { PersistConfig } from '@johnhamlin/redux-persist/es/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import FilesystemStorage from 'redux-persist-filesystem-storage';
 
 import { reduxMmkvStorage } from './mmkv';
 
@@ -21,6 +23,9 @@ const persistConfig = {
   key: 'root',
   storage: reduxMmkvStorage,
   log: true,
+  // Don't wait for the PersistGate if it's the first launch
+  //   timeout: (async () =>
+  //     (await AsyncStorage.getItem('isNotFirstLaunch')) ? 5000 : 0)(),
 };
 console.log('setting up redux store');
 
@@ -52,6 +57,12 @@ export const reduxStore = configureStore({
 
 // TODO: This may need to be a let
 export const persistor = persistStore(reduxStore);
+
+// Mark that the app has been launched at least once
+// (async () =>
+//   (await AsyncStorage.getItem('isNotFirstLaunch'))
+//     ? null
+//     : AsyncStorage.setItem('isNotFirstLaunch', 'true'))();
 
 setupListeners(reduxStore.dispatch);
 

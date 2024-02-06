@@ -7,8 +7,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "preview:android": "dotenv -- eas build -p android --local --profile preview",
-    "preview:ios": "dotenv -- eas build -p ios --local --profile preview",
+    "preview:android": "time dotenv -- eas build -p android --local --profile preview --non-interactive --output \"./build/android/screwtapp-preview-$(date +\"%Y_%m_%d_%I_%M_%p\").apk\"",
+    "preview:ios": "time dotenv -- eas build -p ios --local --profile preview --non-interactive --output \"./build/screwtapp-preview-$(date +\"%Y_%m_%d_%I_%M_%p\").ipa\"",
     "ts:check": "tsc",
     "lint": "eslint ."
   },
