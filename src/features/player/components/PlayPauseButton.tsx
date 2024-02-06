@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import TrackPlayer, { useIsPlaying } from 'react-native-track-player';
 
 type PlayPauseButtonProps = {
@@ -14,6 +15,7 @@ type PlayPauseButtonProps = {
 
 export const PlayPauseButton = ({ mode }: PlayPauseButtonProps) => {
   const { playing, bufferingDuringPlay } = useIsPlaying();
+  const theme = useTheme();
 
   return (
     <View style={styles.container}>
@@ -26,7 +28,7 @@ export const PlayPauseButton = ({ mode }: PlayPauseButtonProps) => {
           <FontAwesome6
             name={playing ? 'pause' : 'play'}
             size={mode === 'modal' ? 48 : 36}
-            color="white"
+            color={theme.colors.onSurface}
           />
         </TouchableWithoutFeedback>
       )}

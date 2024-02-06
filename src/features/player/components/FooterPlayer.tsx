@@ -2,6 +2,7 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
+import Animated, { SlideInDown } from 'react-native-reanimated';
 import { useActiveTrack } from 'react-native-track-player';
 
 import { PlayPauseButton } from './PlayPauseButton';
@@ -13,7 +14,8 @@ export default function FooterPlayer() {
 
   return (
     <Pressable onPress={() => router.navigate('/player')}>
-      <View
+      <Animated.View
+        entering={SlideInDown}
         style={{
           ...styles.container,
           backgroundColor: theme.colors.elevation.level2,
@@ -35,7 +37,7 @@ export default function FooterPlayer() {
           <PlayPauseButton mode="footer" />
         </View>
         <Spacer />
-      </View>
+      </Animated.View>
     </Pressable>
   );
 }
