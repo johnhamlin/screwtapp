@@ -9,12 +9,14 @@ import * as Sentry from '@sentry/react-native';
 import merge from 'deepmerge';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { View, useColorScheme } from 'react-native';
 import {
+  Text,
   MD3DarkTheme,
   MD3LightTheme,
   PaperProvider,
   adaptNavigationTheme,
+  ActivityIndicator,
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TrackPlayer from 'react-native-track-player';
@@ -25,6 +27,7 @@ import { useSetupPlayer } from '../features/player/hooks/useSetupPlayer';
 import { FooterPlayer } from '@/features/player/components';
 import { playbackService } from '@/features/player/services';
 import { persistor, reduxStore } from '@/reduxStore';
+import { listStyles } from '@/styles';
 
 if (__DEV__) {
   // @ts-ignore
@@ -68,13 +71,11 @@ export function RootLayout() {
     <ReduxProvider store={reduxStore}>
       <PersistGate
         // Obnoxious loading screen for debugging
-        // loading={
-        //   <View
-        //     style={{ backgroundColor: 'red', height: '100%', width: '100%' }}
-        //   >
-        //     <Text>Loading…</Text>
-        //   </View>
-        // }
+        loading={
+          <View style={listStyles.loadingContainer}>
+            <ActivityIndicator size="large" />
+          </View>
+        }
         persistor={persistor}
       >
         <PaperProvider theme={theme}>

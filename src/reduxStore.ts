@@ -8,6 +8,7 @@ import {
   persistReducer,
   persistStore,
 } from '@johnhamlin/redux-persist';
+import { PersistConfig } from '@johnhamlin/redux-persist/es/types';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
@@ -19,6 +20,7 @@ import playerReducer from '@/features/player/slices/playerSlice';
 const persistConfig = {
   key: 'root',
   storage: reduxMmkvStorage,
+  log: true,
 };
 console.log('setting up redux store');
 

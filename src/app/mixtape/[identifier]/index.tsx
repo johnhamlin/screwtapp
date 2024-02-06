@@ -72,14 +72,18 @@ export default function Mixtape() {
       />
       {error ? (
         <>
-          <Text>
-            There was an issue loading the mixtapes. Please close the app and
-            try again.
-          </Text>
+          <View style={listStyles.errorContainer}>
+            <Text>
+              There was an issue loading the mixtapes. Please close the app and
+              try again.
+            </Text>
+          </View>
           {console.error(error)}
         </>
       ) : isLoading ? (
-        <ActivityIndicator size="large" />
+        <View style={listStyles.loadingContainer}>
+          <ActivityIndicator size="large" />
+        </View>
       ) : trackList ? (
         <FlashList
           estimatedItemSize={64}

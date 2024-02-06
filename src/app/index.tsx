@@ -28,9 +28,13 @@ export default function Home() {
       />
       <View style={listStyles.container}>
         {error ? (
-          <Text>Oh no! Error</Text>
+          <View style={listStyles.errorContainer}>
+            <Text>Oh no! Error</Text>
+          </View>
         ) : isLoading ? (
-          <ActivityIndicator size="large" />
+          <View style={listStyles.loadingContainer}>
+            <ActivityIndicator size="large" />
+          </View>
         ) : data ? (
           <FlashList
             // Load more on initial render so it fills the screen
