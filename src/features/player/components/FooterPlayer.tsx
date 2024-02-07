@@ -2,7 +2,8 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
-import Animated, { SlideInDown } from 'react-native-reanimated';
+import Animated, { Easing, SlideInDown } from 'react-native-reanimated';
+import TextTicker from 'react-native-text-ticker';
 import { useActiveTrack } from 'react-native-track-player';
 
 import { PlayPauseButton } from './PlayPauseButton';
@@ -28,7 +29,18 @@ export default function FooterPlayer() {
           )}
           <View style={styles.trackTextContainer}>
             {track?.title && (
-              <Text style={styles.titleText}>{track?.title}</Text>
+              <TextTicker
+                style={{ ...styles.titleText, color: theme.colors.onSurface }}
+                // bounce
+                animationType="bounce"
+                marqueeDelay={750}
+                scrollSpeed={70}
+                easing={Easing.sin}
+                bounceDelay={1000}
+                bouncePadding={{ left: 0, right: 10 }}
+              >
+                {track?.title}
+              </TextTicker>
             )}
             {track?.artist && (
               <Text style={styles.artistText}>{track?.artist}</Text>
