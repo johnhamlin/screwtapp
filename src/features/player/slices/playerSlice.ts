@@ -9,6 +9,7 @@ export interface PlayerState {
   isPlaying: boolean;
   queue: rntpTrack[] | null;
   queueIndex: number | null;
+  isFooterPlayerVisible: boolean;
 }
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   isPlaying: false,
   queue: null,
   queueIndex: null,
+  isFooterPlayerVisible: false,
 } as PlayerState;
 
 export const playerSlice = createSlice({
@@ -39,6 +41,9 @@ export const playerSlice = createSlice({
     setQueueIndex: (state, action: PayloadAction<number>) => {
       state.queueIndex = action.payload;
     },
+    setFooterPlayerVisible: (state, action: PayloadAction<boolean>) => {
+      state.isFooterPlayerVisible = action.payload;
+    },
   },
 });
 
@@ -48,6 +53,7 @@ export const {
   setIsPlaying,
   setQueue,
   setQueueIndex,
+  setFooterPlayerVisible,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;

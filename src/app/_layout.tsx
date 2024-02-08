@@ -18,13 +18,13 @@ import {
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TrackPlayer, { useActiveTrack } from 'react-native-track-player';
-import { Provider as ReduxProvider } from 'react-redux';
+import { Provider as ReduxProvider, useSelector } from 'react-redux';
 
 import { useSetupPlayer } from '../features/player/hooks/useSetupPlayer';
 
 import { FooterPlayer } from '@/features/player/components';
 import { playbackService } from '@/features/player/services';
-import { persistor, reduxStore } from '@/reduxStore';
+import { RootState, persistor, reduxStore } from '@/reduxStore';
 import { listStyles } from '@/styles';
 
 if (__DEV__) {
@@ -67,12 +67,9 @@ export function RootLayout() {
 
   // Get the theme based on the user's system preferences
   const theme = useCombinedTheme();
-  console.log('theme', theme);
 
   // Setup react-native-track-player (once)
   useSetupPlayer();
-  const activeTrack = useActiveTrack();
-  console.log('activeTrack', activeTrack);
 
   return (
     <ReduxProvider store={reduxStore}>
@@ -93,7 +90,7 @@ export function RootLayout() {
               <Stack.Screen name="index" options={{}} />
               <Stack.Screen name="player" options={{ presentation: 'modal' }} />
             </Stack>
-            {activeTrack && <FooterPlayer />}
+            <FooterPlayer />
           </SafeAreaProvider>
         </ThemeProvider>
       </PaperProvider>

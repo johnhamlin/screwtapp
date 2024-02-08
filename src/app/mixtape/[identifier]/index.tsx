@@ -9,7 +9,11 @@ import { useDispatch } from 'react-redux';
 
 import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
 import { fastQueueWithIndex } from '@/features/player/services/';
-import { setQueue, setQueueIndex } from '@/features/player/slices/playerSlice';
+import {
+  setFooterPlayerVisible,
+  setQueue,
+  setQueueIndex,
+} from '@/features/player/slices/playerSlice';
 import { listStyles } from '@/styles';
 
 dayjs.extend(utc);
@@ -60,6 +64,9 @@ export default function Mixtape() {
     // Save the queue and index to Redux to persist between sessions
     dispatch(setQueue(queue));
     dispatch(setQueueIndex(index));
+
+    // The first time you play a track, show the footer player
+    dispatch(setFooterPlayerVisible(true));
   };
 
   return (
