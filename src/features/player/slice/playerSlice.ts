@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Sound } from 'expo-av/build/Audio';
-import type { Track as rntpTrack } from 'react-native-track-player';
+
 export interface PlayerState {
   isPlayerReady: boolean;
   currentTrack: string;
   sound: Sound | null;
   isPlaying: boolean;
-  queue: rntpTrack[] | null;
+  queue: MixtapeTrack[] | null;
   queueIndex: number | null;
   isFooterPlayerVisible: boolean;
 }
@@ -29,13 +29,13 @@ export const playerSlice = createSlice({
     setIsPlayerReady: (state, action: PayloadAction<boolean>) => {
       state.isPlayerReady = action.payload;
     },
-    setCurrentTrack: (state, action: PayloadAction<string>) => {
-      state.currentTrack = action.payload;
-    },
-    setIsPlaying: (state, action: PayloadAction<boolean>) => {
-      state.isPlaying = action.payload;
-    },
-    setQueue: (state, action: PayloadAction<rntpTrack[]>) => {
+    // setCurrentTrack: (state, action: PayloadAction<string>) => {
+    //   state.currentTrack = action.payload;
+    // },
+    // setIsPlaying: (state, action: PayloadAction<boolean>) => {
+    //   state.isPlaying = action.payload;
+    // },
+    setQueue: (state, action: PayloadAction<MixtapeTrack[]>) => {
       state.queue = action.payload;
     },
     setQueueIndex: (state, action: PayloadAction<number>) => {
@@ -49,8 +49,8 @@ export const playerSlice = createSlice({
 
 export const {
   setIsPlayerReady,
-  setCurrentTrack,
-  setIsPlaying,
+  // setCurrentTrack,
+  // setIsPlaying,
   setQueue,
   setQueueIndex,
   setFooterPlayerVisible,

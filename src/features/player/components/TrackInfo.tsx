@@ -1,42 +1,25 @@
 import { Image } from 'expo-image';
-import { router } from 'expo-router';
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { Easing } from 'react-native-reanimated';
 import TextTicker from 'react-native-text-ticker';
 import { useActiveTrack } from 'react-native-track-player';
-import { useSelector } from 'react-redux';
 
-import { RootState } from '@/reduxStore';
+import LinkToActiveAlbum from '../containers/LinkToActiveAlbum';
 
 export function TrackInfo() {
   const track = useActiveTrack();
   const theme = useTheme();
 
-  // ? Should I store the active track in redux so we don't have to use the queue?
-  const firstTrackInQueue = useSelector(
-    (state: RootState) => state.player.queue?.[0],
-  );
-  const id = firstTrackInQueue?.mixtapeId;
+  // const selectActiveTrackId = useMemo(makeSelectActiveTrackId, []);
 
   return (
     <View style={styles.container}>
       {track?.artwork && (
-        // Tap on the artwork to navigate to the mixtape
-        <Pressable
-          onPress={() => {
-            // close the modal with back
-            router.back();
-            // navigate to the mixtape
-            router.navigate({
-              pathname: 'mixtape/[id]',
-              params: { id },
-            });
-          }}
-        >
+        <LinkToActiveAlbum isInModal>
           <Image style={styles.artwork} source={{ uri: track?.artwork }} />
-        </Pressable>
+        </LinkToActiveAlbum>
       )}
       {track?.title && (
         <TextTicker

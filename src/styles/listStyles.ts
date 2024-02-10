@@ -8,6 +8,7 @@ export const listStyles = StyleSheet.create({
   albumThumbnail: {
     width: 56,
     height: 56,
+    borderRadius: 8,
   },
   item: {
     paddingLeft: 20,

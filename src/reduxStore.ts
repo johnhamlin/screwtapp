@@ -14,7 +14,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { reduxMmkvStorage } from './mmkv';
 
 import { mixtapeListApi } from '@/features/mixtapeList/slices/mixtapeListApi';
-import playerReducer from '@/features/player/slices/playerSlice';
+import playerReducer from '@/features/player/slice/playerSlice';
 
 const persistConfig = {
   key: 'root',

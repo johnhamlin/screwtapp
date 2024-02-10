@@ -1,5 +1,4 @@
 import * as FileSystem from 'expo-file-system';
-import { LRUCache } from 'lru-cache';
 
 // const songCache = new LRUCache<string, string>({
 //   max: 100,
@@ -7,11 +6,11 @@ import { LRUCache } from 'lru-cache';
 // });
 
 export async function saveSong(
-  identifier: string,
+  id: string,
   folder: string,
   song: string,
 ): Promise<string | void> {
-  const path = `${FileSystem.documentDirectory}${folder}/${identifier}`;
+  const path = `${FileSystem.documentDirectory}${folder}/${id}`;
   try {
     await FileSystem.writeAsStringAsync(path, song);
     return path;
@@ -22,13 +21,10 @@ export async function saveSong(
 }
 
 // ? This may need to take a path instead of an identifier and folder
-export async function deleteSong(
-  identifier: string,
-  folder: string,
-): Promise<void> {
+export async function deleteSong(id: string, folder: string): Promise<void> {
   try {
     await FileSystem.deleteAsync(
-      `${FileSystem.documentDirectory}${folder}/${identifier}`,
+      `${FileSystem.documentDirectory}${folder}/${id}`,
     );
     // songCache.dispose(identifier);
   } catch (error) {

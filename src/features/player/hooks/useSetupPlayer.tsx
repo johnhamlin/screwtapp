@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { setIsPlayerReady } from '../slices/playerSlice';
+import { setIsPlayerReady } from '../slice/playerSlice';
 
 import {
   queuePersistedTracksService,

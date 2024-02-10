@@ -3,7 +3,6 @@ import { Stack, router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useTheme, Text } from 'react-native-paper';
 import { useActiveTrack } from 'react-native-track-player';
-import { useSelector, useStore } from 'react-redux';
 
 import {
   PlayerControls,
@@ -11,18 +10,11 @@ import {
   TrackInfo,
 } from '../features/player/components';
 
-import playerSlice from '@/features/player/slices/playerSlice';
-import { RootState } from '@/reduxStore';
+import LinkToActiveAlbum from '@/features/player/containers/LinkToActiveAlbum';
 
 export default function Player() {
   const theme = useTheme();
   const track = useActiveTrack();
-
-  // ? Should I store the active track in redux so we don't have to use the queue?
-  const firstTrackInQueue = useSelector(
-    (state: RootState) => state.player.queue?.[0],
-  );
-  const id = firstTrackInQueue?.mixtapeId;
 
   return (
     <>
@@ -41,21 +33,9 @@ export default function Player() {
           title: track?.album,
           headerTitle: () => (
             // Tap on the name of the mixtape to navigate to it
-            <Pressable
-              onPress={() => {
-                // close the modal with back
-                router.back();
-                // navigate to the mixtape
-                if (id) {
-                  router.navigate({
-                    pathname: 'mixtape/[id]',
-                    params: { id },
-                  });
-                }
-              }}
-            >
+            <LinkToActiveAlbum isInModal>
               <Text>{track?.album}</Text>
-            </Pressable>
+            </LinkToActiveAlbum>
           ),
         }}
       />

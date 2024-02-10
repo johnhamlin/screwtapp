@@ -3,7 +3,7 @@ import {
   setFooterPlayerVisible,
   setQueue,
   setQueueIndex,
-} from '../slices/playerSlice';
+} from '../slice/playerSlice';
 
 import { reduxStore } from '@/reduxStore';
 

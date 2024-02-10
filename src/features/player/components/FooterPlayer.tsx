@@ -9,16 +9,16 @@ import { useSelector } from 'react-redux';
 
 import { PlayPauseButton } from './PlayPauseButton';
 import { Spacer } from './Spacer';
+import LinkToActiveAlbum from '../containers/LinkToActiveAlbum';
+import { selectIsFooterPlayerVisible } from '../slice';
 
-import { RootState } from '@/reduxStore';
 import { rgbStringToRgbaString } from '@/styles/utils';
 
 export default function FooterPlayer() {
   const theme = useTheme();
   const track = useActiveTrack();
-  const isFooterPlayerVisible = useSelector(
-    (state: RootState) => state.player.isFooterPlayerVisible,
-  );
+  // const selectIsFooterPlayerVisible = useMemo(makeIsFooterPlayerVisible, []);
+  const isFooterPlayerVisible = useSelector(selectIsFooterPlayerVisible);
 
   return (
     isFooterPlayerVisible && (
@@ -38,9 +38,14 @@ export default function FooterPlayer() {
         >
           <Spacer />
           <View style={styles.trackInfoContainer}>
-            {track?.artwork && (
-              <Image style={styles.artwork} source={{ uri: track?.artwork }} />
-            )}
+            <LinkToActiveAlbum style={styles.artworkContainer}>
+              {track?.artwork && (
+                <Image
+                  style={styles.artwork}
+                  source={{ uri: track?.artwork }}
+                />
+              )}
+            </LinkToActiveAlbum>
             <View style={styles.trackTextContainer}>
               {track?.title && (
                 <TextTicker
@@ -85,11 +90,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: 24,
   },
-  artwork: {
-    width: '10%',
-    aspectRatio: 1,
-    backgroundColor: 'grey',
+  artworkContainer: {
+    width: '12%',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 16,
+    flex: 0,
+  },
+
+  artwork: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 5,
+    backgroundColor: 'grey',
   },
   trackTextContainer: {
     flex: 1,

@@ -24,8 +24,6 @@ export default function Mixtape() {
     isLoading,
   } = useGetMixtapeQuery(id as string);
 
-  console.log('trackList', trackList);
-
   return (
     <View style={listStyles.container}>
       <Stack.Screen

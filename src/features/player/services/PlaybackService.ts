@@ -1,7 +1,7 @@
 import TrackPlayer, { Event } from 'react-native-track-player';
 
 // import { cacheNextSong } from './songCache';
-import { setQueueIndex } from '../slices/playerSlice';
+import { setQueueIndex } from '../slice/playerSlice';
 
 import type { RootState } from '@/reduxStore';
 import { reduxStore } from '@/reduxStore';
