@@ -1,110 +1,86 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { PitchAlgorithm } from 'react-native-track-player';
 
-interface MixtapeListResponse {
-  items: Mixtape[];
-  count: number;
-  total: number;
-}
-
-interface MixtapeMetadataResponse {
-  created: number;
-  d1: string;
-  d2: string;
-  dir: string;
-  files: MixtapeFile[];
-  files_count: number;
-  item_last_updated: number;
-  item_size: number;
-  metadata: Metadata;
-  server: string;
-  uniq: number;
-  workable_servers: string[];
-}
-
-interface MixtapeFile {
-  name: string;
-  source: string;
-  format: string;
-  original?: string;
-  mtime?: string;
-  size?: string;
-  md5: string;
-  crc32?: string;
-  sha1?: string;
-  length?: string;
-  height?: string;
-  width?: string;
-  title?: string;
-  creator?: string;
-  album?: string;
-  track?: string;
-  artist?: string;
-  genre?: string;
-  rotation?: string;
-  btih?: string;
-}
-
-interface RawTrack {
-  name: string;
-  source: string;
-  mtime: string;
-  size: string;
-  md5: string;
-  crc32: string;
-  sha1: string;
-  format: string;
-  length: string;
-  height: string;
-  width: string;
-  title: string;
-  creator: string;
-  album: string;
-  track: string;
-  artist: string;
-  genre: string;
-}
+import type {
+  MixtapeListResponse,
+  MixtapeMetadataRawResponse,
+  TrackRawResponse,
+} from '../@types/mixtapeListApi';
 
 export const mixtapeListApi = createApi({
   reducerPath: 'mixtapeListApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://archive.org/' }),
   tagTypes: ['MixtapeList'],
   endpoints: builder => ({
-    getMixtapeList: builder.query({
+    getMixtapeList: builder.query<Mixtape[], string>({
       query: () =>
         'services/search/v1/scrape?fields=title,date,identifier,downloads,creator&q=collection:dj-screw-discography',
-      transformResponse: ({ items }: MixtapeListResponse, meta, arg) =>
+      transformResponse: ({ items }: MixtapeListResponse) =>
         items.map(item => ({
           ...item,
+          id: item.identifier,
           title: item.title
             .replace(/^DJ Screw - /, '')
             .replace(/ \(\d{4}\)$/, ''),
+          thumbnail: `https://archive.org/services/img/${item.identifier}`,
         })),
+
       providesTags: ['MixtapeList'],
     }),
-    getThumbnail: builder.query({
-      query: identifier => `/services/img/${identifier}`,
-    }),
-    getMixtapeMetadata: builder.query<MixtapeMetadataResponse, string>({
-      query: identifier => `metadata/${identifier}`,
-    }),
+    // getThumbnail: builder.query({
+    //   query: identifier => `/services/img/${identifier}`,
+    // }),
+    // getMixtapeMetadata: builder.query<MixtapeMetadataResponse, string>({
+    //   query: identifier => `metadata/${identifier}`,
+    // }),
 
-    getMixtape: builder.query<archiveApiTrack[], string>({
+    getMixtape: builder.query<MixtapeTrack[], string>({
       query: (identifier: string) => `metadata/${identifier}`,
-      transformResponse: (response: MixtapeMetadataResponse) => {
+      transformResponse: (response: MixtapeMetadataRawResponse, _meta, arg) => {
         const tracks = response.files.filter(
           // Only files with a length property are tracks
           file => Object.hasOwn(file, 'length'),
           // This type assertion is kind of dangerous, but I know I've filtered the MixtapeFiles down to just RawTracks (https://typescript.tv/errors/#TS2352)
-        ) as unknown as RawTrack[];
+        ) as unknown as TrackRawResponse[];
 
-        // Doing any mutations / additions of properties that I need here to avoid running them over and over again in React
-        return tracks.map(track => {
-          return {
-            ...track,
-            length: Number(track.length),
-            dir: response.dir,
-          };
-        });
+        // Grab anything else we need off the response object
+        const { dir } = response;
+
+        // Find the front cover file, if it exists. If not, default to the archive.org thumbnail
+        const frontCoverFile = response.files.find(
+          file => file.name === 'Front.jpg',
+        );
+        const artwork = frontCoverFile
+          ? `https://archive.org${response.dir}/${encodeURIComponent(frontCoverFile.name)}`
+          : `https://archive.org/services/img/${arg}`;
+
+        // Mutate to work with RNTP Track type, plus any other info we need
+        return tracks.map(track => ({
+          // archive.org doesn't have a unique id for each track, so we'll use the sha1 of the file
+          sha1: track.sha1,
+          url: `https://archive.org${response.dir}/${encodeURIComponent(track.name)}`,
+          type: undefined,
+          userAgent: undefined,
+          contentType: undefined,
+          // the duration in seconds
+          duration: Number(track.length),
+          title: track.title,
+          artist: track.artist,
+          album: track.album,
+          description: undefined,
+          genre: track.genre,
+          date: undefined,
+          rating: undefined,
+          artwork,
+          pitchAlgorithm: PitchAlgorithm.Music,
+          headers: undefined,
+          isLiveStream: false,
+          // Additional info no on the RNTP Track type
+          directoryOnArchiveDotOrg: dir,
+          fileName: track.name,
+          // The mixtapeId was passed in as the arg to the query to fetch the tracks, so it's the same for all of them
+          mixtapeId: arg,
+        }));
       },
     }),
   }),
@@ -112,8 +88,7 @@ export const mixtapeListApi = createApi({
 
 export const {
   useGetMixtapeListQuery,
-  useGetThumbnailQuery,
-  useGetMixtapeMetadataQuery,
-
+  // useGetThumbnailQuery,
+  // useGetMixtapeMetadataQuery,
   useGetMixtapeQuery,
 } = mixtapeListApi;

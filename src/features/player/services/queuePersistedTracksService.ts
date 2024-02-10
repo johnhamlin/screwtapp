@@ -1,5 +1,3 @@
-import TrackPlayer from 'react-native-track-player';
-
 import { fastQueueWithIndex } from './fastQueueWithIndex';
 
 import { reduxStore } from '@/reduxStore';
