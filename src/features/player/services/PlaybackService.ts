@@ -1,8 +1,10 @@
 import TrackPlayer, { Event } from 'react-native-track-player';
 
+// import { cacheNextSong } from './songCache';
 import { setQueueIndex } from '../slices/playerSlice';
 
-import { RootState, reduxStore } from '@/reduxStore';
+import type { RootState } from '@/reduxStore';
+import { reduxStore } from '@/reduxStore';
 
 export async function playbackService() {
   TrackPlayer.addEventListener(
@@ -17,6 +19,13 @@ export async function playbackService() {
       }
     },
   );
+
+  // TrackPlayer.addEventListener(Event.PlaybackState, async event => {
+  //   if (event.state === 'playing') {
+  uncachePreviousSong;
+  //     await cacheNextSong();
+  //   }
+  // });
 
   TrackPlayer.addEventListener(Event.RemotePause, () => {
     console.log('Event.RemotePause');
@@ -89,17 +98,17 @@ export async function playbackService() {
     console.log('Event.MetadataCommonReceived', event);
   });
 
-  TrackPlayer.addEventListener(Event.PlaybackProgressUpdated, event => {
-    // console.log('Event.PlaybackProgressUpdated', event);
-    // When the track is 30 seconds from ending, download and cache the next track
-    // TODO When the tracks change, delete the old track from the cache
-    const timeRemaining = Math.floor(event.duration - event.position);
-    console.log('timeRemaining', timeRemaining);
+  // TrackPlayer.addEventListener(Event.PlaybackProgressUpdated, event => {
+  //   // console.log('Event.PlaybackProgressUpdated', event);
+  //   // When the track is 30 seconds from ending, download and cache the next track
+  //   // TODO When the tracks change, delete the old track from the cache
+  //   const timeRemaining = Math.floor(event.duration - event.position);
+  //   console.log('timeRemaining', timeRemaining);
 
-    if (event.duration - event.position === 30) {
-      //
-    }
-  });
+  //   if (event.duration - event.position === 30) {
+  //     //
+  //   }
+  // });
 
   TrackPlayer.addEventListener(
     Event.PlaybackMetadataReceived,

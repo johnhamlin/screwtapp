@@ -15,11 +15,6 @@ import { listStyles } from '@/styles';
 
 dayjs.extend(utc);
 
-const THUMB_URL = 'https://archive.org/services/img/';
-// ctrl-cmd-z to open menu in simulator
-// console.log(reduxStorage.getAllKeys());
-// console.log(reduxStorage.getItem('persist:root'));
-
 export default function Home() {
   const {
     data: mixtapeListData,
@@ -50,7 +45,7 @@ export default function Home() {
             // Load more on initial render so it fills the screen
             // initialNumToRender={20}
             estimatedItemSize={84}
-            keyExtractor={item => item.identifier}
+            keyExtractor={mixtape => mixtape.id}
             data={mixtapeListData}
             onRefresh={() => {
               dispatch(mixtapeListApi.util.invalidateTags(['MixtapeList']));
@@ -61,10 +56,10 @@ export default function Home() {
                 <Link
                   //prevent Link from wrapping children in a <Text> component
                   asChild
-                  //@ts-ignore weird expo-router bug?
+                  //@ts-expect-error weird expo-router bug?
                   href={{
-                    pathname: 'mixtape/[identifier]',
-                    params: { identifier: mixtape.identifier },
+                    pathname: 'mixtape/[id]',
+                    params: { identifier: mixtape.id },
                   }}
                   // onPress={}
                 >
@@ -82,7 +77,7 @@ export default function Home() {
                         style={listStyles.albumThumbnail}
                         alt="album artwork"
                         source={{
-                          uri: THUMB_URL + mixtape.identifier,
+                          uri: mixtape.thumbnail,
                         }}
                       />
                     )}
