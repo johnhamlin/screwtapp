@@ -6,7 +6,7 @@ import { Pressable, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
 
 import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
-import { playSelectedSongAndQueueMixtape } from '@/features/player/services/playSelectedSongAndQueueMixtape';
+import { playSelectedSongAndQueueMixtape } from '@/features/player/services';
 import { listStyles } from '@/styles';
 
 dayjs.extend(utc);
@@ -17,12 +17,12 @@ type MixtapeListProps = {
 };
 
 export default function Mixtape() {
-  const { identifier } = useLocalSearchParams();
+  const { id } = useLocalSearchParams();
   const {
     data: trackList,
     error,
     isLoading,
-  } = useGetMixtapeQuery(identifier as string);
+  } = useGetMixtapeQuery(id as string);
 
   console.log('trackList', trackList);
 

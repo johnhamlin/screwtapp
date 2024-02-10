@@ -3,3 +3,4 @@ export * from './queuePersistedTracksService';
 export * from './setupService';
 export * from './fastQueueWithIndex';
 export * from './songCache';
+export * from './playSelectedSongAndQueueMixtape';

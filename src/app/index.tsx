@@ -59,7 +59,7 @@ export default function Home() {
                   //@ts-expect-error weird expo-router bug?
                   href={{
                     pathname: 'mixtape/[id]',
-                    params: { identifier: mixtape.id },
+                    params: { id: mixtape.id },
                   }}
                   // onPress={}
                 >

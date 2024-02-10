@@ -6,12 +6,20 @@ import { Text, useTheme } from 'react-native-paper';
 import { Easing } from 'react-native-reanimated';
 import TextTicker from 'react-native-text-ticker';
 import { useActiveTrack } from 'react-native-track-player';
+import { useSelector } from 'react-redux';
+
+import { RootState } from '@/reduxStore';
 
 export function TrackInfo() {
   const track = useActiveTrack();
   const theme = useTheme();
-  // Take the string after the last slash in the URL
-  const identifier = track?.artwork?.split('/').pop();
+
+  // ? Should I store the active track in redux so we don't have to use the queue?
+  const firstTrackInQueue = useSelector(
+    (state: RootState) => state.player.queue?.[0],
+  );
+  const id = firstTrackInQueue?.mixtapeId;
+
   return (
     <View style={styles.container}>
       {track?.artwork && (
@@ -22,8 +30,8 @@ export function TrackInfo() {
             router.back();
             // navigate to the mixtape
             router.navigate({
-              pathname: 'mixtape/[identifier]',
-              params: { identifier },
+              pathname: 'mixtape/[id]',
+              params: { id },
             });
           }}
         >
