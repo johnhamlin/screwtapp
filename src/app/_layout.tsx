@@ -26,6 +26,7 @@ import { FooterPlayer } from '@/features/player/components';
 import { playbackService } from '@/features/player/services';
 import { RootState, persistor, reduxStore } from '@/reduxStore';
 import { listStyles } from '@/styles';
+import { isRunningInExpoGo } from 'expo';
 
 if (__DEV__) {
   // @ts-ignore
@@ -36,17 +37,17 @@ if (__DEV__) {
 TrackPlayer.registerPlaybackService(() => playbackService);
 
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
-const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
+const navigationIntegration = Sentry.reactNavigationIntegration({
+  enableTimeToInitialDisplay: !isRunningInExpoGo(),
+});
+
 Sentry.init({
   dsn: 'https://3ebc70c8d7760dbce1a08ea177938236@o4506599881834496.ingest.sentry.io/4506626395930624',
-  // debug: __DEV__, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+  debug: __DEV__, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
   integrations: [
-    new Sentry.ReactNativeTracing({
-      // Pass instrumentation to be used as `routingInstrumentation`
-      routingInstrumentation,
-      // ...
-    }),
+    navigationIntegration,
   ],
+  enableNativeFramesTracking: !isRunningInExpoGo(),
 });
 
 export function RootLayout() {
@@ -54,8 +55,8 @@ export function RootLayout() {
   // Capture the NavigationContainer ref and register it with the instrumentation.
   const ref = useNavigationContainerRef();
   useEffect(() => {
-    if (ref) {
-      routingInstrumentation.registerNavigationContainer(ref);
+    if (ref?.current) {
+      navigationIntegration.registerNavigationContainer(ref);
     }
   }, [ref]);
 
