@@ -10,7 +10,7 @@ import type {
 export const mixtapeListApi = createApi({
   reducerPath: 'mixtapeListApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://archive.org/' }),
-  tagTypes: ['MixtapeList'],
+  tagTypes: ['MixtapeList', 'Mixtape'],
   endpoints: builder => ({
     getMixtapeList: builder.query<Mixtape[], string>({
       query: () =>
@@ -51,14 +51,14 @@ export const mixtapeListApi = createApi({
           file => file.name === 'Front.jpg',
         );
         const artwork = frontCoverFile
-          ? `https://archive.org${response.dir}/${encodeURIComponent(frontCoverFile.name)}`
+          ? `https://archive.org/download/${arg}/${encodeURIComponent(frontCoverFile.name)}`
           : `https://archive.org/services/img/${arg}`;
 
         // Mutate to work with RNTP Track type, plus any other info we need
         return tracks.map(track => ({
           // archive.org doesn't have a unique id for each track, so we'll use the sha1 of the file
           sha1: track.sha1,
-          url: `https://archive.org${response.dir}/${encodeURIComponent(track.name)}`,
+          url: `https://archive.org/download/${arg}/${encodeURIComponent(track.name)}`,
           type: undefined,
           userAgent: undefined,
           contentType: undefined,
@@ -82,6 +82,9 @@ export const mixtapeListApi = createApi({
           mixtapeId: arg,
         }));
       },
+      providesTags: (_result,_error, arg) => [
+        { type: 'Mixtape', id: arg },
+      ],
     }),
   }),
 });

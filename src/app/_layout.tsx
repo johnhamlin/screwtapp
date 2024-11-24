@@ -7,6 +7,7 @@ import {
 } from '@react-navigation/native';
 import * as Sentry from '@sentry/react-native';
 import merge from 'deepmerge';
+import { isRunningInExpoGo } from 'expo';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
@@ -20,13 +21,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TrackPlayer, { useActiveTrack } from 'react-native-track-player';
 import { Provider as ReduxProvider, useSelector } from 'react-redux';
 
-import { useSetupPlayer } from '../features/player/hooks/useSetupPlayer';
-
 import { FooterPlayer } from '@/features/player/components';
+import { useSetupPlayer } from '@/features/player/hooks/useSetupPlayer';
 import { playbackService } from '@/features/player/services';
 import { RootState, persistor, reduxStore } from '@/reduxStore';
 import { listStyles } from '@/styles';
-import { isRunningInExpoGo } from 'expo';
 
 if (__DEV__) {
   // @ts-ignore
@@ -43,7 +42,7 @@ const navigationIntegration = Sentry.reactNavigationIntegration({
 
 Sentry.init({
   dsn: 'https://3ebc70c8d7760dbce1a08ea177938236@o4506599881834496.ingest.sentry.io/4506626395930624',
-  debug: __DEV__, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+  // debug: __DEV__, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
   integrations: [
     navigationIntegration,
   ],
@@ -74,7 +73,7 @@ export function RootLayout() {
 
   return (
     <ReduxProvider store={reduxStore}>
-      {/* Disabling for now because it makes the initial load slow and I'm not having UI issues with loading it because mmkv is so fast */}
+      {/* Disabling for now because it makes the initial load slow, and I'm not having UI issues with loading it because mmkv is so fast */}
       {/* <PersistGate
         // Obnoxious loading screen for debugging
         loading={

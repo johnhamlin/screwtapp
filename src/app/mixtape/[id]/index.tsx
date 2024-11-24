@@ -4,8 +4,12 @@ import utc from 'dayjs/plugin/utc';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { Pressable, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 
-import { useGetMixtapeQuery } from '@/features/mixtapeList/slices/mixtapeListApi';
+import {
+  mixtapeListApi,
+  useGetMixtapeQuery,
+} from '@/features/mixtapeList/slices/mixtapeListApi';
 import { playSelectedSongAndQueueMixtape } from '@/features/player/services';
 import { listStyles } from '@/styles';
 
@@ -22,7 +26,10 @@ export default function Mixtape() {
     data: trackList,
     error,
     isLoading,
+    isFetching,
   } = useGetMixtapeQuery(id as string);
+
+  const dispatch = useDispatch();
 
   return (
     <View style={listStyles.container}>
@@ -50,6 +57,14 @@ export default function Mixtape() {
         <FlashList
           estimatedItemSize={64}
           data={trackList}
+          onRefresh={() => {
+            dispatch(
+              mixtapeListApi.util.invalidateTags([
+                { type: 'Mixtape', id: id as string },
+              ]),
+            );
+          }}
+          refreshing={isFetching}
           renderItem={({ item: track, index }: MixtapeListProps) => (
             <Pressable
               onPress={() => playSelectedSongAndQueueMixtape(trackList, index)}
