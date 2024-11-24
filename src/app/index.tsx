@@ -5,12 +5,12 @@ import { Image } from 'expo-image';
 import { Link, Stack } from 'expo-router';
 import { View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
 
 import {
   mixtapeListApi,
   useGetMixtapeListQuery,
 } from '@/features/mixtapeList/slices/mixtapeListApi';
+import { useAppDispatch } from '@/hooks/reduxHooks';
 import { listStyles } from '@/styles';
 
 dayjs.extend(utc);
@@ -22,7 +22,7 @@ export default function Home() {
     isLoading,
     isFetching,
   } = useGetMixtapeListQuery('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -56,9 +56,8 @@ export default function Home() {
                 <Link
                   //prevent Link from wrapping children in a <Text> component
                   asChild
-                  //@ts-expect-error weird expo-router bug?
                   href={{
-                    pathname: 'mixtape/[id]',
+                    pathname: '/mixtape/[id]',
                     params: { id: mixtape.id },
                   }}
                   // onPress={}

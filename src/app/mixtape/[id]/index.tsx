@@ -4,13 +4,13 @@ import utc from 'dayjs/plugin/utc';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { Pressable, View } from 'react-native';
 import { ActivityIndicator, Divider, List, Text } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
 
 import {
   mixtapeListApi,
   useGetMixtapeQuery,
 } from '@/features/mixtapeList/slices/mixtapeListApi';
 import { playSelectedSongAndQueueMixtape } from '@/features/player/services';
+import { useAppDispatch } from '@/hooks/reduxHooks';
 import { listStyles } from '@/styles';
 
 dayjs.extend(utc);
@@ -29,14 +29,14 @@ export default function Mixtape() {
     isFetching,
   } = useGetMixtapeQuery(id as string);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <View style={listStyles.container}>
       <Stack.Screen
         options={{
           title: trackList ? trackList[0].album : '',
-          headerBackTitleVisible: false,
+          headerBackVisible: false,
         }}
       />
       {error ? (
