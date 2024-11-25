@@ -39,7 +39,7 @@ export const selectIsFooterPlayerVisible = (state: RootState) =>
   state.player.isFooterPlayerVisible;
 
 export const selectActiveTrackId = (state: RootState) => {
-  if (state.player.queue && state.player.queueIndex) {
+  if (state.player.queue !== null && state.player.queueIndex !== null) {
     return state.player.queue[state.player.queueIndex].mixtapeId;
   }
   return null;

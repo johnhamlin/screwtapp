@@ -8,8 +8,7 @@ import {
   PlayerControls,
   Progress,
   TrackInfo,
-} from '../features/player/components';
-
+} from '@/features/player/components';
 import LinkToActiveAlbum from '@/features/player/containers/LinkToActiveAlbum';
 
 export default function Player() {

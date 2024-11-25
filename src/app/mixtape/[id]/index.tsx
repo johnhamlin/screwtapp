@@ -10,7 +10,8 @@ import {
   useGetMixtapeQuery,
 } from '@/features/mixtapeList/slices/mixtapeListApi';
 import { playSelectedSongAndQueueMixtape } from '@/features/player/services';
-import { useAppDispatch } from '@/hooks/reduxHooks';
+import { selectIsFooterPlayerVisible } from '@/features/player/slice';
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 import { listStyles } from '@/styles';
 
 dayjs.extend(utc);
@@ -27,16 +28,24 @@ export default function Mixtape() {
     error,
     isLoading,
     isFetching,
+    refetch,
   } = useGetMixtapeQuery(id as string);
 
+  // trackList?.forEach((track: MixtapeTrack) => {
+  //   console.log(track.artwork);
+  // });
+
   const dispatch = useAppDispatch();
+  const isFooterPlayerVisible = useAppSelector(selectIsFooterPlayerVisible);
+
+  if (error) console.error(error);
 
   return (
     <View style={listStyles.container}>
       <Stack.Screen
         options={{
           title: trackList ? trackList[0].album : '',
-          headerBackVisible: false,
+          headerBackButtonDisplayMode: 'minimal',
         }}
       />
       {error ? (
@@ -47,7 +56,6 @@ export default function Mixtape() {
               try again.
             </Text>
           </View>
-          {console.error(error)}
         </>
       ) : isLoading ? (
         <View style={listStyles.loadingContainer}>
@@ -63,8 +71,12 @@ export default function Mixtape() {
                 { type: 'Mixtape', id: id as string },
               ]),
             );
+            refetch();
           }}
           refreshing={isFetching}
+          ListFooterComponent={() =>
+            isFooterPlayerVisible && <View style={{ height: 102 }} />
+          }
           renderItem={({ item: track, index }: MixtapeListProps) => (
             <Pressable
               onPress={() => playSelectedSongAndQueueMixtape(trackList, index)}

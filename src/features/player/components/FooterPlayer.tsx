@@ -5,20 +5,22 @@ import { Text, useTheme } from 'react-native-paper';
 import Animated, { Easing, SlideInDown } from 'react-native-reanimated';
 import TextTicker from 'react-native-text-ticker';
 import { useActiveTrack } from 'react-native-track-player';
-import { useSelector } from 'react-redux';
 
 import { PlayPauseButton } from './PlayPauseButton';
 import { Spacer } from './Spacer';
+// @ts-expect-error
+import artworkPlaceholder from '../../../assets/artwork_placeholder.jpg';
 import LinkToActiveAlbum from '../containers/LinkToActiveAlbum';
 import { selectIsFooterPlayerVisible } from '../slice';
 
+import { useAppSelector } from '@/hooks/reduxHooks';
 import { rgbStringToRgbaString } from '@/styles/utils';
 
 export default function FooterPlayer() {
   const theme = useTheme();
   const track = useActiveTrack();
   // const selectIsFooterPlayerVisible = useMemo(makeIsFooterPlayerVisible, []);
-  const isFooterPlayerVisible = useSelector(selectIsFooterPlayerVisible);
+  const isFooterPlayerVisible = useAppSelector(selectIsFooterPlayerVisible);
 
   return (
     isFooterPlayerVisible && (
@@ -39,12 +41,11 @@ export default function FooterPlayer() {
           <Spacer />
           <View style={styles.trackInfoContainer}>
             <LinkToActiveAlbum style={styles.artworkContainer}>
-              {track?.artwork && (
-                <Image
-                  style={styles.artwork}
-                  source={{ uri: track?.artwork }}
-                />
-              )}
+              <Image
+                style={styles.artwork}
+                source={{ uri: track?.artwork }}
+                placeholder={artworkPlaceholder}
+              />
             </LinkToActiveAlbum>
             <View style={styles.trackTextContainer}>
               {track?.title && (

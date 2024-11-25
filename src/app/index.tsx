@@ -10,7 +10,8 @@ import {
   mixtapeListApi,
   useGetMixtapeListQuery,
 } from '@/features/mixtapeList/slices/mixtapeListApi';
-import { useAppDispatch } from '@/hooks/reduxHooks';
+import { selectIsFooterPlayerVisible } from '@/features/player/slice';
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 import { listStyles } from '@/styles';
 
 dayjs.extend(utc);
@@ -21,8 +22,10 @@ export default function Home() {
     error,
     isLoading,
     isFetching,
+    refetch,
   } = useGetMixtapeListQuery('');
   const dispatch = useAppDispatch();
+  const isFooterPlayerVisible = useAppSelector(selectIsFooterPlayerVisible);
 
   return (
     <>
@@ -49,7 +52,11 @@ export default function Home() {
             data={mixtapeListData}
             onRefresh={() => {
               dispatch(mixtapeListApi.util.invalidateTags(['MixtapeList']));
+              refetch();
             }}
+            ListFooterComponent={() =>
+              isFooterPlayerVisible && <View style={{ height: 102 }} />
+            }
             refreshing={isFetching}
             renderItem={({ item: mixtape }: { item: Mixtape }) => (
               <>
