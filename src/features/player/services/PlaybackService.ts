@@ -82,10 +82,6 @@ export async function playbackService() {
     console.log('Event.PlaybackState', event);
   });
 
-  TrackPlayer.addEventListener(Event.PlaybackMetadataReceived, event => {
-    console.log('[Deprecated] Event.PlaybackMetadataReceived', event);
-  });
-
   TrackPlayer.addEventListener(Event.MetadataChapterReceived, event => {
     console.log('Event.MetadataChapterReceived', event);
   });
@@ -111,15 +107,18 @@ export async function playbackService() {
   // });
 
   TrackPlayer.addEventListener(
-    Event.PlaybackMetadataReceived,
-    // This came from the example app
-    async ({ title, artist }) => {
+    Event.MetadataCommonReceived,
+    async ({ metadata }) => {
       const activeTrack = await TrackPlayer.getActiveTrack();
-      TrackPlayer.updateNowPlayingMetadata({
-        artist: [title, artist].filter(Boolean).join(' - '),
-        title: activeTrack?.title,
-        artwork: activeTrack?.artwork,
-      });
+      const title = metadata?.title;
+      const artist = metadata?.artist;
+      if (title || artist) {
+        TrackPlayer.updateNowPlayingMetadata({
+          artist: [title, artist].filter(Boolean).join(' - '),
+          title: activeTrack?.title,
+          artwork: activeTrack?.artwork,
+        });
+      }
     },
   );
 }
