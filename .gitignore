@@ -34,3 +34,6 @@ build*.ipa
 
 # Webstorm
 .idea/*
+
+# Git worktrees
+.worktrees/
