@@ -55,13 +55,10 @@
     "eslint-config-universe": "^12.0.0",
     "eslint-plugin-reactotron": "^0.1.2",
     "prettier": "^3.2.4",
-    "reactotron-react-native": "^5.0.5",
+    "reactotron-react-native": "^5.1.18",
     "reactotron-react-native-mmkv": "^0.2.3",
-    "reactotron-redux": "^3.1.7",
+    "reactotron-redux": "^3.2.1",
     "typescript": "~5.9.2"
-  },
-  "resolutions": {
-    "promise": "^8.3.0"
   },
   "private": true,
   "volta": {
