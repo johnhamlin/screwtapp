@@ -1,7 +1,7 @@
 import { Storage } from '@johnhamlin/redux-persist/es/types';
-import { MMKV } from 'react-native-mmkv';
+import { createMMKV } from 'react-native-mmkv';
 
-export const MmkvStorage = new MMKV();
+export const MmkvStorage = createMMKV();
 
 export const reduxMmkvStorage: Storage = {
   setItem: (key, value) => {
@@ -13,7 +13,7 @@ export const reduxMmkvStorage: Storage = {
     return Promise.resolve(value);
   },
   removeItem: key => {
-    MmkvStorage.delete(key);
+    MmkvStorage.remove(key);
     return Promise.resolve();
   },
   // Added this to fix type error
