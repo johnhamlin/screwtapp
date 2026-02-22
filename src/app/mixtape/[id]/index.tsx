@@ -63,7 +63,6 @@ export default function Mixtape() {
         </View>
       ) : trackList ? (
         <FlashList
-          estimatedItemSize={64}
           data={trackList}
           onRefresh={() => {
             dispatch(

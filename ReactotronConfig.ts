@@ -6,9 +6,8 @@ import { MmkvStorage } from '@/mmkv';
 
 const reactotron = Reactotron.configure({ name: 'ScrewTapp' })
   .useReactNative()
-  // @ts-expect-error this works but TS isn't happy. It's what the docs say to do.
+  // @ts-expect-error Reactotron plugin types don't match with newer TS - works at runtime
   .use(networking())
-  // @ts-expect-error this works but TS isn't happy. It's what the docs say to do.
   // .use(mmkvPlugin({ storage }))
   .use(reactotronRedux())
   .connect();

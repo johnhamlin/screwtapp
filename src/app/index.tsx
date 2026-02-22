@@ -45,9 +45,6 @@ export default function Home() {
           </View>
         ) : mixtapeListData ? (
           <FlashList
-            // Load more on initial render so it fills the screen
-            // initialNumToRender={20}
-            estimatedItemSize={84}
             keyExtractor={mixtape => mixtape.id}
             data={mixtapeListData}
             onRefresh={() => {
