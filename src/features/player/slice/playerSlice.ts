@@ -1,11 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Sound } from 'expo-av/build/Audio';
 
 export interface PlayerState {
   isPlayerReady: boolean;
   currentTrack: string;
-  sound: Sound | null;
   isPlaying: boolean;
   queue: MixtapeTrack[] | null;
   queueIndex: number | null;
@@ -15,7 +13,6 @@ export interface PlayerState {
 const initialState = {
   isPlayerReady: false,
   currentTrack: '',
-  // sound: null,
   isPlaying: false,
   queue: null,
   queueIndex: null,

@@ -82,10 +82,6 @@ export async function playbackService() {
     console.log('Event.PlaybackState', event);
   });
 
-  TrackPlayer.addEventListener(Event.PlaybackMetadataReceived, event => {
-    console.log('[Deprecated] Event.PlaybackMetadataReceived', event);
-  });
-
   TrackPlayer.addEventListener(Event.MetadataChapterReceived, event => {
     console.log('Event.MetadataChapterReceived', event);
   });
@@ -94,32 +90,20 @@ export async function playbackService() {
     console.log('Event.MetadataTimedReceived', event);
   });
 
-  TrackPlayer.addEventListener(Event.MetadataCommonReceived, event => {
-    console.log('Event.MetadataCommonReceived', event);
-  });
-
-  // TrackPlayer.addEventListener(Event.PlaybackProgressUpdated, event => {
-  //   // console.log('Event.PlaybackProgressUpdated', event);
-  //   // When the track is 30 seconds from ending, download and cache the next track
-  //   // TODO When the tracks change, delete the old track from the cache
-  //   const timeRemaining = Math.floor(event.duration - event.position);
-  //   console.log('timeRemaining', timeRemaining);
-
-  //   if (event.duration - event.position === 30) {
-  //     //
-  //   }
-  // });
-
   TrackPlayer.addEventListener(
-    Event.PlaybackMetadataReceived,
-    // This came from the example app
-    async ({ title, artist }) => {
+    Event.MetadataCommonReceived,
+    async ({ metadata }) => {
+      console.log('Event.MetadataCommonReceived', metadata);
       const activeTrack = await TrackPlayer.getActiveTrack();
-      TrackPlayer.updateNowPlayingMetadata({
-        artist: [title, artist].filter(Boolean).join(' - '),
-        title: activeTrack?.title,
-        artwork: activeTrack?.artwork,
-      });
+      const title = metadata?.title;
+      const artist = metadata?.artist;
+      if (title || artist) {
+        TrackPlayer.updateNowPlayingMetadata({
+          artist: [title, artist].filter(Boolean).join(' - '),
+          title: activeTrack?.title,
+          artwork: activeTrack?.artwork,
+        });
+      }
     },
   );
 }
