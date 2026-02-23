@@ -4,14 +4,13 @@ import {
   Text,
   TextStyle,
   TouchableWithoutFeedback,
-  ViewStyle,
 } from 'react-native';
 
 export interface ButtonProps {
   title: string;
   onPress: () => void;
   type?: keyof typeof styles;
-  style?: ViewStyle | TextStyle;
+  style?: TextStyle;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -23,10 +22,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <Text
-        style={{
-          ...styles[type],
-          ...style,
-        }}
+        style={[styles[type], style]}
       >
         {title}
       </Text>
