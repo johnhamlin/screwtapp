@@ -9,27 +9,58 @@
   <img src='.github/resources/screenshot-android.png' alt='Android Screenshot' height=500 />
 </div>
 
-There were lots of apps to stream the jam band shows on archive.org, but none for the trove of DJ Screw mixtapes. So I made one. Currently in alpha, but you can try out the code with Expo Go.
+There were lots of apps to stream the jam band shows on archive.org, but none for the trove of DJ Screw mixtapes. So I made one.
 
 ## Built With
 
-- 📱 React Native / Expo
-- ▶️ React Native Track Player
-- 🚦 Expo Router
-- 🗃️ Redux / RTK Query
-- ⚡️ FlashList
-- 📄 React Native Paper
-- 📘 TypeScript
+- React Native 0.81 / Expo SDK 54 (New Architecture)
+- React Native Track Player v5
+- Expo Router v6
+- Redux Toolkit / RTK Query
+- FlashList v2
+- React Native Paper (Material Design 3)
+- TypeScript 5.9
 
-Sure, here's a basic structure for your README.md file. You can replace the placeholders with the actual information about your project.
+## Prerequisites
 
-## Usage
+- Node.js 22 LTS (the project pins this via [Volta](https://volta.sh/))
+- [Xcode](https://developer.apple.com/xcode/) (for iOS)
+- [Android Studio](https://developer.android.com/studio) (for Android)
+- [CocoaPods](https://cocoapods.org/) (`gem install cocoapods`)
 
-To start the application, clone this repo, run the following command and follow the prompts to launch Expo Go:
+## Getting Started
 
 ```sh
-npm start
+# Clone the repo
+git clone https://github.com/johnhamlin/screwtapp.git
+cd screwtapp
+
+# Install dependencies
+npm install --legacy-peer-deps
+
+# Generate native projects
+npx expo prebuild --clean
+
+# Run on iOS simulator
+npm run ios
+
+# Run on Android emulator
+npm run android
 ```
+
+> **Note:** `--legacy-peer-deps` is needed due to `react-dom` peer dependency conflicts from `expo-router` (this is a React Native app, not a web app).
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run start` | Start Expo dev server |
+| `npm run ios` | Build and run on iOS |
+| `npm run android` | Build and run on Android |
+| `npm run ts:check` | TypeScript type checking |
+| `npm run lint` | ESLint |
+| `npm run preview:ios` | Local EAS build for iOS (preview profile) |
+| `npm run preview:android` | Local EAS build for Android (preview profile) |
 
 ## Contributing
 
