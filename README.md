@@ -36,7 +36,7 @@ git clone https://github.com/johnhamlin/screwtapp.git
 cd screwtapp
 
 # Install dependencies
-npm install --legacy-peer-deps
+npm install
 
 # Generate native projects
 npx expo prebuild --clean
@@ -47,8 +47,6 @@ npm run ios
 # Run on Android emulator
 npm run android
 ```
-
-> **Note:** `--legacy-peer-deps` is needed due to `react-dom` peer dependency conflicts from `expo-router` (this is a React Native app, not a web app).
 
 ## Scripts
 
