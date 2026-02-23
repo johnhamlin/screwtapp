@@ -13,6 +13,9 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:mutate": "npx stryker run",
+    "test:related": "jest --onlyChanged",
+    "test:unit": "jest --testPathPattern='features|styles'",
+    "test:screens": "jest --testPathPattern='src/app'",
     "ts:check": "tsc",
     "lint": "eslint ."
   },
