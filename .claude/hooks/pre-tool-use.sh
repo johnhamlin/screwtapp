@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# PreToolUse hook: Blocks Edit/Write to production code.
+# Exits 0 to allow, exits 2 to block.
+
+set -euo pipefail
+
+# Read JSON from stdin
+INPUT=$(cat)
+
+# Extract tool name
+TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null || echo "")
+
+# Only check Edit and Write tools
+if [[ "$TOOL_NAME" != "Edit" && "$TOOL_NAME" != "Write" ]]; then
+  exit 0
+fi
+
+# Extract file_path from tool_input
+FILE_PATH=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))" 2>/dev/null || echo "")
+
+if [[ -z "$FILE_PATH" ]]; then
+  exit 0
+fi
+
+# Normalize: strip leading slashes and common prefixes to get a relative path
+REL_PATH="$FILE_PATH"
+# Strip the repo root if present
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
+if [[ -n "$REPO_ROOT" && "$REL_PATH" == "$REPO_ROOT"* ]]; then
+  REL_PATH="${REL_PATH#$REPO_ROOT/}"
+fi
+
+# --- Allowed patterns ---
+
+# .claude/ config files (always allowed)
+if [[ "$REL_PATH" == .claude/* ]]; then
+  exit 0
+fi
+
+# Test files: __tests__ directories, .test.*, .spec.*
+if [[ "$REL_PATH" == */__tests__/* || "$REL_PATH" == *__tests__/* ]]; then
+  exit 0
+fi
+if [[ "$REL_PATH" == *.test.* || "$REL_PATH" == *.spec.* ]]; then
+  exit 0
+fi
+
+# Test utilities and mocks
+if [[ "$REL_PATH" == src/test/* || "$REL_PATH" == src/mocks/* ]]; then
+  exit 0
+fi
+
+# Test config files
+if [[ "$REL_PATH" == jest.config.* || "$REL_PATH" == jest.setup.* || "$REL_PATH" == stryker.config.* ]]; then
+  exit 0
+fi
+
+# Maestro E2E flows
+if [[ "$REL_PATH" == .maestro/* ]]; then
+  exit 0
+fi
+
+# Spec/design documents
+if [[ "$REL_PATH" == specs/* || "$REL_PATH" == .specify/* ]]; then
+  exit 0
+fi
+
+# CLAUDE.md at repo root
+if [[ "$REL_PATH" == "CLAUDE.md" ]]; then
+  exit 0
+fi
+
+# --- Blocked: everything else under src/ or any other production file ---
+if [[ "$REL_PATH" == src/* ]]; then
+  echo "BLOCKED: AI may not edit production code at '$REL_PATH'."
+  echo "This file is under src/ and does not match any allowed test pattern."
+  echo "If this file needs changes for testability, emit a Fix Note instead."
+  exit 2
+fi
+
+# Allow non-src files that don't match any known pattern (e.g., root config files)
+exit 0

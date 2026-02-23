@@ -16,7 +16,10 @@ ScrewTapp is a React Native (Expo 54, RN 0.81) app for browsing and playing DJ S
 - `npm run preview:ios` — Local EAS build for iOS (preview profile)
 - `npm run preview:android` — Local EAS build for Android (preview profile)
 
-There is no test runner configured.
+- `npm test` — Run all unit and integration tests (Jest)
+- `npm run test:watch` — Jest watch mode
+- `npm run test:coverage` — Coverage report
+- `npm run test:mutate` — Mutation testing (Stryker, pilot scope)
 
 ## Architecture
 
@@ -69,3 +72,18 @@ Material Design 3 with system light/dark mode. The theme pipeline in `src/app/_l
 - **TypeScript**: Strict mode enabled. Global types in `src/@types/global.d.ts` (`Mixtape`, `MixtapeTrack`). Feature-specific API types colocated in feature `@types/` dirs.
 - **Formatting**: Prettier with single quotes, no parens on single-param arrows
 - **Unused vars**: Prefix with `_` to suppress lint warnings
+
+## Testing
+
+### Conventions
+- Test files live in colocated `__tests__/` directories (e.g., `src/features/player/__tests__/`)
+- Shared mocks: `src/mocks/` (MSW handlers and fixtures)
+- Shared test utilities: `src/test/` (renderWithProviders, createTestStore)
+- Use `ByRole`/`ByText` RNTL queries; avoid `ByTestId` unless necessary
+- Use `userEvent` over `fireEvent`; use `findBy*` for async
+- MSW intercepts all network requests; unhandled requests fail tests
+
+### AI Scope Boundary
+- AI may only create/modify test files, test config, mocks, and test utilities
+- Production code changes require human action — AI emits "Fix Notes" instead
+- Enforcement: `.claude/rules/`, `.claude/settings.json`, PreToolUse hook

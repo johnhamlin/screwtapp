@@ -37,3 +37,10 @@ build*.ipa
 
 # Git worktrees
 .worktrees/
+
+# Stryker mutation testing
+.stryker-tmp/
+reports/
+
+# Jest coverage
+coverage/
