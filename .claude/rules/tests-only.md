@@ -10,6 +10,7 @@ AI agents (Claude Code) operating in this repository may **only** create or modi
 - **Test utilities**: `src/test/**`
 - **Maestro E2E flows**: `.maestro/**`
 - **Spec/design documents**: `specs/**`, `.specify/**`
+- **Fix notes**: `TO-FIX.md`
 
 ## Prohibited
 
@@ -19,6 +20,6 @@ AI agents (Claude Code) operating in this repository may **only** create or modi
 
 ## When Production Changes Are Needed
 
-If a production file needs modification to improve testability, the AI must **not** edit it directly. Instead, emit a "Fix Note" describing the required change so a human developer can apply it.
+If a production file needs modification to improve testability, the AI must **not** edit it directly. Instead, append a Fix Note entry to `TO-FIX.md` at the project root, following the numbered-list format established in that file.
 
 This rule is enforced by `.claude/settings.json` permissions, the PreToolUse hook, and path-scoped rules.

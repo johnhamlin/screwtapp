@@ -16,10 +16,10 @@ The following paths under `src/` are allowed:
 
 ## Fix Notes
 
-When a production file needs changes to improve testability (e.g., exporting an internal function, adding a dependency injection seam), the AI must **not** edit the file directly. Instead, emit a **Fix Note** in the following format:
+When a production file needs changes to improve testability (e.g., exporting an internal function, adding a dependency injection seam), the AI must **not** edit the file directly. Instead, append a Fix Note entry to `TO-FIX.md` at the project root, following the numbered-list format established in that file:
 
-> **Fix Note** (`path/to/production/file.ts`):
-> Description of the required change and why it improves testability.
-> Suggested diff or code snippet.
+> **N.** **`<description>`** (`path/to/file.ts:lines`):
+> - What is wrong and why it matters
+> - Suggested fix with code snippet
 
 A human developer will review and apply the change.

@@ -22,7 +22,9 @@
       "Edit: stryker.config.*",
       "Write: stryker.config.*",
       "Edit: .maestro/**",
-      "Write: .maestro/**"
+      "Write: .maestro/**",
+      "Edit: TO-FIX.md",
+      "Write: TO-FIX.md"
     ]
   },
   "hooks": {

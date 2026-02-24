@@ -85,5 +85,5 @@ Material Design 3 with system light/dark mode. The theme pipeline in `src/app/_l
 
 ### AI Scope Boundary
 - AI may only create/modify test files, test config, mocks, and test utilities
-- Production code changes require human action — AI emits "Fix Notes" instead
+- Production code changes require human action — AI appends to `TO-FIX.md` (project root)
 - Enforcement: `.claude/rules/`, `.claude/settings.json`, PreToolUse hook
