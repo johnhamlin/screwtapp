@@ -257,9 +257,9 @@ As of initial setup (informational, no enforced thresholds):
 
 ## Known Issues
 
-1. **RTK Query timer warnings**: Tests log `ReferenceError: Jest environment torn down` after completion. This is harmless — RTK Query's `keepUnusedDataFor` timers fire after Jest tears down. Suppressed by `forceExit: true` in jest.config.ts.
+1. ~~**RTK Query timer warnings**~~ — Fixed: `autoBatchEnhancer` disabled in test stores, async flush in `afterEach`.
 
-2. **`act(...)` console warnings**: React Redux subscription updates trigger act warnings in screen tests. These are cosmetic — the tests use `findBy*` which properly waits for updates.
+2. ~~**`act(...)` console warnings**~~ — Fixed: Same root cause as #1 (autoBatchEnhancer deferred notifications).
 
 3. **Mixtape detail empty state (production bug)**: `trackList[0].album` crashes when trackList is empty. Test is `test.skip`'d with Fix Notes. Guard needed at `src/app/mixtape/[id]/index.tsx:47`:
    ```tsx

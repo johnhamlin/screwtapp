@@ -4,7 +4,6 @@ const config: Config = {
   preset: 'jest-expo',
   testEnvironment: 'node',
   fakeTimers: { enableGlobally: false },
-  forceExit: true,
   setupFilesAfterEnv: ['./jest.setup.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',

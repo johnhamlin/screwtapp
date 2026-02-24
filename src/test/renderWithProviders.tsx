@@ -12,6 +12,8 @@ import type { RootState } from '@/reduxStore';
 
 type AppStore = ReturnType<typeof createTestStore>;
 
+const activeStores: AppStore[] = [];
+
 interface RenderWithProvidersOptions extends RenderOptions {
   preloadedState?: Partial<RootState>;
   store?: AppStore;
@@ -25,6 +27,8 @@ export function createTestStore(preloadedState?: Partial<RootState>) {
     },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware().concat(mixtapeListApi.middleware),
+    enhancers: getDefaultEnhancers =>
+      getDefaultEnhancers({ autoBatch: false }),
     preloadedState: preloadedState as RootState,
   });
 }
@@ -34,6 +38,7 @@ export function renderWithProviders(
   options: RenderWithProvidersOptions = {},
 ) {
   const { preloadedState, store = createTestStore(preloadedState), ...renderOptions } = options;
+  activeStores.push(store);
 
   function Wrapper({ children }: PropsWithChildren) {
     return (
@@ -58,7 +63,10 @@ export function renderWithProviders(
   };
 }
 
-afterEach(() => {
-  // Note: each test gets a fresh store via renderWithProviders,
-  // but this ensures any shared state is cleaned up
+afterEach(async () => {
+  for (const store of activeStores) {
+    store.dispatch(mixtapeListApi.util.resetApiState());
+  }
+  activeStores.length = 0;
+  await new Promise(resolve => setTimeout(resolve, 0));
 });

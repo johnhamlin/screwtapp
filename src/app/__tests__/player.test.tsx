@@ -1,5 +1,5 @@
 import React from 'react';
-import { useActiveTrack } from 'react-native-track-player';
+import { useActiveTrack, PitchAlgorithm } from 'react-native-track-player';
 import { renderWithProviders } from '@/test/renderWithProviders';
 
 // Mock expo-router
@@ -32,7 +32,7 @@ const mockTrack = {
   album: 'Chapter 001: Tha Originator',
   genre: 'Hip Hop',
   artwork: 'https://archive.org/download/test/Front.jpg',
-  pitchAlgorithm: 1,
+  pitchAlgorithm: PitchAlgorithm.Music,
   isLiveStream: false,
   directoryOnArchiveDotOrg: '/test',
   fileName: 'track.mp3',
@@ -56,19 +56,30 @@ describe('Player screen', () => {
       },
     });
 
-    expect(getByText('Intro')).toBeTruthy();
-    expect(getByText('DJ Screw')).toBeTruthy();
+    expect(getByText('Intro')).toBeOnTheScreen();
+    expect(getByText('DJ Screw')).toBeOnTheScreen();
   });
 
   test('controls visible: play/pause and skip buttons present', () => {
     (useActiveTrack as jest.Mock).mockReturnValue(mockTrack);
 
-    const { getByText } = renderWithProviders(<Player />);
+    const { getByText } = renderWithProviders(<Player />, {
+      preloadedState: {
+        player: {
+          isPlayerReady: true,
+          currentTrack: '',
+          isPlaying: false,
+          queue: [mockTrack as MixtapeTrack],
+          queueIndex: 0,
+          isFooterPlayerVisible: true,
+        },
+      },
+    });
 
     // FontAwesome6 renders the icon name as text in our mock
-    expect(getByText('play')).toBeTruthy();
-    expect(getByText('backward')).toBeTruthy();
-    expect(getByText('forward')).toBeTruthy();
+    expect(getByText('play')).toBeOnTheScreen();
+    expect(getByText('backward')).toBeOnTheScreen();
+    expect(getByText('forward')).toBeOnTheScreen();
   });
 
   test('no active track: renders without track info', () => {
@@ -76,7 +87,7 @@ describe('Player screen', () => {
 
     const { queryByText } = renderWithProviders(<Player />);
 
-    expect(queryByText('Intro')).toBeNull();
-    expect(queryByText('DJ Screw')).toBeNull();
+    expect(queryByText('Intro')).not.toBeOnTheScreen();
+    expect(queryByText('DJ Screw')).not.toBeOnTheScreen();
   });
 });

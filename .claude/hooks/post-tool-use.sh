@@ -35,18 +35,30 @@ if [[ "$IS_TEST" != "true" ]]; then
   exit 0
 fi
 
+# Change to repo root
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
+if [[ -z "$REPO_ROOT" || ! -d "$REPO_ROOT" ]]; then
+  echo "Warning: Could not determine repo root. Skipping test run."
+  exit 0
+fi
+cd "$REPO_ROOT"
+
 # Run jest on the edited test file
 echo "Running tests for: $FILE_PATH"
 
-# Change to repo root
-REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
-if [[ -n "$REPO_ROOT" ]]; then
-  cd "$REPO_ROOT"
-fi
+TEST_OUTPUT=$(npx jest --findRelatedTests "$FILE_PATH" --no-coverage 2>&1)
+TEST_EXIT=$?
 
-npx jest --findRelatedTests "$FILE_PATH" --passWithNoTests --no-coverage 2>&1 || {
-  echo "Test run completed with failures for: $FILE_PATH"
-}
+if [[ $TEST_EXIT -eq 0 ]]; then
+  # Show summary line only on success
+  echo "$TEST_OUTPUT" | grep -E "^(Tests|Test Suites):" || true
+  echo "Tests passed."
+elif echo "$TEST_OUTPUT" | grep -q "No tests found"; then
+  echo "No tests found for: $FILE_PATH"
+else
+  echo "$TEST_OUTPUT"
+  echo "Tests failed for: $FILE_PATH"
+fi
 
 # Post-hooks always exit 0
 exit 0

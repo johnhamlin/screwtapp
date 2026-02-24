@@ -8,7 +8,13 @@ export const handlers = [
     return HttpResponse.json(mixtapeListFixture);
   }),
 
-  http.get('https://archive.org/metadata/:identifier', () => {
+  http.get('https://archive.org/metadata/:identifier', ({ params }) => {
+    if (params.identifier !== mixtapeMetadataFixture.metadata.identifier) {
+      return HttpResponse.json(
+        { error: 'Item not found' },
+        { status: 404 },
+      );
+    }
     return HttpResponse.json(mixtapeMetadataFixture);
   }),
 ];

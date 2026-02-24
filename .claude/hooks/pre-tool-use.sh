@@ -8,7 +8,11 @@ set -euo pipefail
 INPUT=$(cat)
 
 # Extract tool name
-TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null || echo "")
+TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))")
+if [[ $? -ne 0 || -z "$TOOL_NAME" ]]; then
+  echo "BLOCKED: Failed to parse tool_name from hook input."
+  exit 2
+fi
 
 # Only check Edit and Write tools
 if [[ "$TOOL_NAME" != "Edit" && "$TOOL_NAME" != "Write" ]]; then
@@ -16,7 +20,11 @@ if [[ "$TOOL_NAME" != "Edit" && "$TOOL_NAME" != "Write" ]]; then
 fi
 
 # Extract file_path from tool_input
-FILE_PATH=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))" 2>/dev/null || echo "")
+FILE_PATH=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))")
+if [[ $? -ne 0 ]]; then
+  echo "BLOCKED: Failed to parse file_path from hook input."
+  exit 2
+fi
 
 if [[ -z "$FILE_PATH" ]]; then
   exit 0
@@ -77,6 +85,19 @@ if [[ "$REL_PATH" == src/* ]]; then
   echo "If this file needs changes for testability, emit a Fix Note instead."
   exit 2
 fi
+
+# --- Blocked: production config files ---
+case "$REL_PATH" in
+  package.json|tsconfig.json|app.json|eas.json)
+    echo "BLOCKED: AI may not edit production config file '$REL_PATH'."
+    exit 2 ;;
+  app.config.*|babel.config.*|metro.config.*)
+    echo "BLOCKED: AI may not edit production config file '$REL_PATH'."
+    exit 2 ;;
+  .env*)
+    echo "BLOCKED: AI may not edit environment file '$REL_PATH'."
+    exit 2 ;;
+esac
 
 # Allow non-src files that don't match any known pattern (e.g., root config files)
 exit 0

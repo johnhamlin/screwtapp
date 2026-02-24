@@ -95,4 +95,12 @@ describe('selectActiveTrackId', () => {
     const state = buildMockState({ queue: null, queueIndex: null });
     expect(selectActiveTrackId(state as never)).toBeNull();
   });
+
+  it('throws TypeError when queueIndex is out of bounds (production bug)', () => {
+    const state = buildMockState({
+      queue: [mockTrack],
+      queueIndex: 5,
+    });
+    expect(() => selectActiveTrackId(state as never)).toThrow(TypeError);
+  });
 });

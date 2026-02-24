@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
+import '@testing-library/react-native/build/matchers/extend-expect';
 import { server } from '@/mocks/server';
 
 // ─── MSW server lifecycle ───────────────────────────────────────────────────

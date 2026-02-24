@@ -11,6 +11,8 @@ function createTestStore() {
   return configureStore({
     reducer: { [mixtapeListApi.reducerPath]: mixtapeListApi.reducer },
     middleware: gDM => gDM().concat(mixtapeListApi.middleware),
+    enhancers: getDefaultEnhancers =>
+      getDefaultEnhancers({ autoBatch: false }),
   });
 }
 
@@ -38,8 +40,9 @@ describe('getMixtapeList transformResponse', () => {
     store = createTestStore();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     store.dispatch(mixtapeListApi.util.resetApiState());
+    await new Promise(resolve => setTimeout(resolve, 0));
   });
 
   it('strips "DJ Screw - " prefix from titles', async () => {
@@ -141,8 +144,9 @@ describe('getMixtape transformResponse', () => {
     store = createTestStore();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     store.dispatch(mixtapeListApi.util.resetApiState());
+    await new Promise(resolve => setTimeout(resolve, 0));
   });
 
   it('filters files to only tracks (files with length property)', async () => {
