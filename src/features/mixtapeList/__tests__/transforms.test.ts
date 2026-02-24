@@ -20,10 +20,8 @@ function createTestStore() {
  *  RTK Query's keepUnusedDataFor timer from firing after Jest tears down. */
 async function dispatchAndUnsubscribe<T>(
   store: ReturnType<typeof createTestStore>,
-  thunk: ReturnType<
-    | typeof mixtapeListApi.endpoints.getMixtapeList.initiate
-    | typeof mixtapeListApi.endpoints.getMixtape.initiate
-  >,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  thunk: any, // Union of initiate() return types; dispatch can't resolve the union
 ): Promise<T> {
   const promise = store.dispatch(thunk);
   const result = await promise.unwrap();

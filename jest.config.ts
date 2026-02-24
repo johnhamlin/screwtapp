@@ -2,6 +2,8 @@ import type { Config } from 'jest';
 
 const config: Config = {
   preset: 'jest-expo',
+  // MSW v2 requires Node.js APIs (http, net). This overrides jest-expo's
+  // react-native environment. RN globals are provided by mocks in jest.setup.ts.
   testEnvironment: 'node',
   fakeTimers: { enableGlobally: false },
   setupFilesAfterEnv: ['./jest.setup.ts'],

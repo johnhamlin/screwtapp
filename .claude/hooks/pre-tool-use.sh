@@ -2,14 +2,14 @@
 # PreToolUse hook: Blocks Edit/Write to production code.
 # Exits 0 to allow, exits 2 to block.
 
-set -euo pipefail
+set -uo pipefail
 
 # Read JSON from stdin
 INPUT=$(cat)
 
 # Extract tool name
-TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))")
-if [[ $? -ne 0 || -z "$TOOL_NAME" ]]; then
+TOOL_NAME=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null || echo "")
+if [[ -z "$TOOL_NAME" ]]; then
   echo "BLOCKED: Failed to parse tool_name from hook input."
   exit 2
 fi
@@ -20,23 +20,21 @@ if [[ "$TOOL_NAME" != "Edit" && "$TOOL_NAME" != "Write" ]]; then
 fi
 
 # Extract file_path from tool_input
-FILE_PATH=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))")
-if [[ $? -ne 0 ]]; then
-  echo "BLOCKED: Failed to parse file_path from hook input."
+FILE_PATH=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))" 2>/dev/null || echo "")
+if [[ -z "$FILE_PATH" ]]; then
+  echo "BLOCKED: Edit/Write tool call has no file_path."
   exit 2
 fi
 
-if [[ -z "$FILE_PATH" ]]; then
-  exit 0
-fi
-
-# Normalize: strip leading slashes and common prefixes to get a relative path
+# Normalize: strip repo root, then resolve ../ segments
 REL_PATH="$FILE_PATH"
-# Strip the repo root if present
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
 if [[ -n "$REPO_ROOT" && "$REL_PATH" == "$REPO_ROOT"* ]]; then
   REL_PATH="${REL_PATH#$REPO_ROOT/}"
 fi
+
+# Collapse ../ segments to prevent path traversal bypass
+REL_PATH=$(printf '%s' "$REL_PATH" | python3 -c "import sys,os; print(os.path.normpath(sys.stdin.read().strip()))" 2>/dev/null || echo "$REL_PATH")
 
 # --- Allowed patterns ---
 
@@ -78,6 +76,16 @@ if [[ "$REL_PATH" == "CLAUDE.md" ]]; then
   exit 0
 fi
 
+# Fix notes (production change requests)
+if [[ "$REL_PATH" == "TO-FIX.md" ]]; then
+  exit 0
+fi
+
+# Testing documentation
+if [[ "$REL_PATH" == "TESTING.md" ]]; then
+  exit 0
+fi
+
 # --- Blocked: everything else under src/ or any other production file ---
 if [[ "$REL_PATH" == src/* ]]; then
   echo "BLOCKED: AI may not edit production code at '$REL_PATH'."
@@ -99,5 +107,6 @@ case "$REL_PATH" in
     exit 2 ;;
 esac
 
-# Allow non-src files that don't match any known pattern (e.g., root config files)
-exit 0
+# --- Default: BLOCK everything else ---
+echo "BLOCKED: File '$REL_PATH' does not match any allowed pattern."
+exit 2

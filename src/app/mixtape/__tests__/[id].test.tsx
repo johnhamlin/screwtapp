@@ -47,7 +47,16 @@ describe('Mixtape detail screen', () => {
   });
 
   test('error state: shows error message on server error', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+    const unexpectedErrors: string[] = [];
+    const consoleSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation((...args: unknown[]) => {
+        const msg = JSON.stringify(args);
+        // Suppress expected error logging from production code on 500 responses
+        if (msg.includes('500')) return;
+        // Collect unexpected errors to assert after render completes
+        unexpectedErrors.push(msg);
+      });
 
     server.use(
       http.get('https://archive.org/metadata/:identifier', () => {
@@ -62,6 +71,7 @@ describe('Mixtape detail screen', () => {
     ).toBeOnTheScreen();
 
     consoleSpy.mockRestore();
+    expect(unexpectedErrors).toEqual([]);
   });
 
   // Fix Notes: Empty track list causes crash at trackList[0].album in
