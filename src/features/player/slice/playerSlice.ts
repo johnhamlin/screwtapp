@@ -26,12 +26,6 @@ export const playerSlice = createSlice({
     setIsPlayerReady: (state, action: PayloadAction<boolean>) => {
       state.isPlayerReady = action.payload;
     },
-    // setCurrentTrack: (state, action: PayloadAction<string>) => {
-    //   state.currentTrack = action.payload;
-    // },
-    // setIsPlaying: (state, action: PayloadAction<boolean>) => {
-    //   state.isPlaying = action.payload;
-    // },
     setQueue: (state, action: PayloadAction<MixtapeTrack[]>) => {
       state.queue = action.payload;
     },
@@ -46,8 +40,6 @@ export const playerSlice = createSlice({
 
 export const {
   setIsPlayerReady,
-  // setCurrentTrack,
-  // setIsPlaying,
   setQueue,
   setQueueIndex,
   setFooterPlayerVisible,

@@ -24,7 +24,6 @@ const persistConfig = {
   //   timeout: (async () =>
   //     (await AsyncStorage.getItem('isNotFirstLaunch')) ? 5000 : 0)(),
 };
-console.log('setting up redux store');
 
 // Combine the reducers so they can be persisted
 const rootReducer = combineReducers({
@@ -54,12 +53,6 @@ export const reduxStore = configureStore({
 
 // TODO: This may need to be a let
 export const persistor = persistStore(reduxStore);
-
-// Mark that the app has been launched at least once
-// (async () =>
-//   (await AsyncStorage.getItem('isNotFirstLaunch'))
-//     ? null
-//     : AsyncStorage.setItem('isNotFirstLaunch', 'true'))();
 
 setupListeners(reduxStore.dispatch);
 

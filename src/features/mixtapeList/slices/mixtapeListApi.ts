@@ -27,12 +27,6 @@ export const mixtapeListApi = createApi({
 
       providesTags: ['MixtapeList'],
     }),
-    // getThumbnail: builder.query({
-    //   query: identifier => `/services/img/${identifier}`,
-    // }),
-    // getMixtapeMetadata: builder.query<MixtapeMetadataResponse, string>({
-    //   query: identifier => `metadata/${identifier}`,
-    // }),
 
     getMixtape: builder.query<MixtapeTrack[], string>({
       query: (identifier: string) => `metadata/${identifier}`,
@@ -40,7 +34,7 @@ export const mixtapeListApi = createApi({
         const tracks = response.files.filter(
           // Only files with a length property are tracks
           file => Object.hasOwn(file, 'length'),
-          // This type assertion is kind of dangerous, but I know I've filtered the MixtapeFiles down to just RawTracks (https://typescript.tv/errors/#TS2352)
+          // NOTE: Key an eye on this type assertion
         ) as unknown as TrackRawResponse[];
 
         // Grab anything else we need off the response object
@@ -82,9 +76,7 @@ export const mixtapeListApi = createApi({
           mixtapeId: arg,
         }));
       },
-      providesTags: (_result,_error, arg) => [
-        { type: 'Mixtape', id: arg },
-      ],
+      providesTags: (_result, _error, arg) => [{ type: 'Mixtape', id: arg }],
     }),
   }),
 });

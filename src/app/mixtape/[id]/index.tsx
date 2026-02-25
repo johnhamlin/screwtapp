@@ -31,10 +31,6 @@ export default function Mixtape() {
     refetch,
   } = useGetMixtapeQuery(id as string);
 
-  // trackList?.forEach((track: MixtapeTrack) => {
-  //   console.log(track.artwork);
-  // });
-
   const dispatch = useAppDispatch();
   const isFooterPlayerVisible = useAppSelector(selectIsFooterPlayerVisible);
 
@@ -99,15 +95,3 @@ export default function Mixtape() {
     </View>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   trackList: {
-//     width: '100%',
-//     paddingLeft: 20,
-//   },
-// });
