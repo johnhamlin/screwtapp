@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(ls:*)",
+      "Bash(head:*)",
+      "Bash(grep:*)",
+      "Bash(tail:*)",
+      "Bash(npx expo:*)",
+      "Bash(xcrun simctl:*)"
+    ]
+  }
+}

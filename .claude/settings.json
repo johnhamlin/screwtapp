@@ -31,13 +31,13 @@
     "PreToolUse": [
       {
         "matcher": "Edit|Write",
-        "command": ".claude/hooks/pre-tool-use.sh"
+        "hooks": [{ "type": "command", "command": ".claude/hooks/pre-tool-use.sh" }]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
-        "command": ".claude/hooks/post-tool-use.sh"
+        "hooks": [{ "type": "command", "command": ".claude/hooks/post-tool-use.sh" }]
       }
     ]
   }
