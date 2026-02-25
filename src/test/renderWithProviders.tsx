@@ -68,5 +68,10 @@ afterEach(async () => {
     store.dispatch(mixtapeListApi.util.resetApiState());
   }
   activeStores.length = 0;
+  // Drain one macrotask tick to let RTK Query middleware settle after resetApiState.
+  // This works because autoBatch is disabled (see createTestStore), so dispatches are
+  // synchronous and a single setTimeout(0) is enough to flush pending microtasks.
+  // If autoBatch were re-enabled, the requestAnimationFrame deferral would require
+  // additional ticks or jest.advanceTimersByTime to avoid "environment torn down" warnings.
   await new Promise(resolve => setTimeout(resolve, 0));
 });

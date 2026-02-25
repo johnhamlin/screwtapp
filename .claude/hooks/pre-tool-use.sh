@@ -33,8 +33,13 @@ if [[ -n "$REPO_ROOT" && "$REL_PATH" == "$REPO_ROOT"* ]]; then
   REL_PATH="${REL_PATH#$REPO_ROOT/}"
 fi
 
-# Collapse ../ segments to prevent path traversal bypass
-REL_PATH=$(printf '%s' "$REL_PATH" | python3 -c "import sys,os; print(os.path.normpath(sys.stdin.read().strip()))" 2>/dev/null || echo "$REL_PATH")
+# Collapse ../ segments to prevent path traversal bypass (e.g. src/test/../../src/app/foo.ts)
+# MUST fail closed: if python3 is unavailable, block rather than using the raw un-normalized path
+NORM_PATH=$(printf '%s' "$REL_PATH" | python3 -c "import sys,os; print(os.path.normpath(sys.stdin.read().strip()))" 2>/dev/null) || {
+  echo "BLOCKED: Failed to normalize path (python3 unavailable). Cannot verify path safety."
+  exit 2
+}
+REL_PATH="$NORM_PATH"
 
 # --- Allowed patterns ---
 

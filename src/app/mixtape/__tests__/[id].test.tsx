@@ -52,8 +52,8 @@ describe('Mixtape detail screen', () => {
       .spyOn(console, 'error')
       .mockImplementation((...args: unknown[]) => {
         const msg = JSON.stringify(args);
-        // Suppress expected error logging from production code on 500 responses
-        if (msg.includes('500')) return;
+        // Suppress expected RTK Query error logging on 500 responses
+        if (msg.includes('"status":500') || msg.includes('FetchError') || msg.includes('rejected')) return;
         // Collect unexpected errors to assert after render completes
         unexpectedErrors.push(msg);
       });
