@@ -1,0 +1,17 @@
+appId: com.johnhamlin.screwtapp
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "ScrewTapp"
+    timeout: 10000
+- tapOn:
+    text: "Chapter.*"
+    index: 0
+- extendedWaitUntil:
+    visible:
+      text: ".*"
+    timeout: 5000
+- assertVisible:
+    text: "1"
+- back
+- assertVisible: "ScrewTapp"

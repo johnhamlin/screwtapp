@@ -37,6 +37,10 @@ build*.ipa
 
 # Git worktrees
 .worktrees/
-.stryker-tmp/sandbox-yX2EZi
-coverage
-reports
+
+# Stryker mutation testing
+.stryker-tmp/
+reports/
+
+# Jest coverage
+coverage/
