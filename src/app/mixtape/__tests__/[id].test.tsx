@@ -74,12 +74,26 @@ describe('Mixtape detail screen', () => {
     expect(unexpectedErrors).toEqual([]);
   });
 
-  // Fix Notes: Empty track list causes crash at trackList[0].album in
-  // src/app/mixtape/[id]/index.tsx:47. Production code needs guard:
-  // title: trackList?.length ? trackList[0].album : ''
-  test.skip('empty state: renders nothing when metadata has no tracks (PRODUCTION BUG: crashes on empty array)', () => {
-    // Skipped: production code crashes when trackList is empty array.
-    // trackList[0].album throws TypeError when trackList has 0 elements.
+  test('empty state: renders without crashing when metadata has no tracks', async () => {
+    server.use(
+      http.get('https://archive.org/metadata/:identifier', () => {
+        return HttpResponse.json({
+          files: [
+            { name: 'cover.jpg', source: 'original', format: 'JPEG', md5: 'abc' },
+          ],
+          dir: '/27/items/dj-screw-chapter-001',
+          metadata: { identifier: 'dj-screw-chapter-001' },
+        });
+      }),
+    );
+
+    const { queryByText, findByText } = renderWithProviders(<Mixtape />);
+
+    // Wait for loading to finish — the empty title from Stack.Screen appears
+    await findByText('');
+
+    // No track items should render
+    expect(queryByText('Intro')).toBeNull();
   });
 
   test('track interaction: pressing a track calls play service', async () => {

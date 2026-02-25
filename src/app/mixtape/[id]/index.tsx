@@ -44,7 +44,7 @@ export default function Mixtape() {
     <View style={listStyles.container}>
       <Stack.Screen
         options={{
-          title: trackList ? trackList[0].album : '',
+          title: trackList?.length ? trackList[0].album : '',
           headerBackButtonDisplayMode: 'minimal',
         }}
       />
