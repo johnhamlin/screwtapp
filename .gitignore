@@ -37,3 +37,6 @@ build*.ipa
 
 # Git worktrees
 .worktrees/
+.stryker-tmp/sandbox-yX2EZi
+coverage
+reports

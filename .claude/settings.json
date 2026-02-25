@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit: src/**",
+      "Write: src/**"
+    ],
+    "allow": [
+      "Edit: src/test/**",
+      "Edit: src/mocks/**",
+      "Edit: **/__tests__/**",
+      "Edit: **/*.test.*",
+      "Edit: **/*.spec.*",
+      "Write: src/test/**",
+      "Write: src/mocks/**",
+      "Write: **/__tests__/**",
+      "Write: **/*.test.*",
+      "Write: **/*.spec.*",
+      "Edit: jest.config.*",
+      "Edit: jest.setup.*",
+      "Write: jest.config.*",
+      "Write: jest.setup.*",
+      "Edit: stryker.config.*",
+      "Write: stryker.config.*",
+      "Edit: .maestro/**",
+      "Write: .maestro/**",
+      "Edit: TO-FIX.md",
+      "Write: TO-FIX.md"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{ "type": "command", "command": ".claude/hooks/pre-tool-use.sh" }]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{ "type": "command", "command": ".claude/hooks/post-tool-use.sh" }]
+      }
+    ]
+  }
+}
