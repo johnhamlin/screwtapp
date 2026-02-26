@@ -21,7 +21,10 @@ export default function Player() {
         options={{
           // animation: 'flip',
           headerLeft: () => (
-            <Pressable onPress={() => router.back()}>
+            <Pressable
+              onPress={() => router.back()}
+              style={styles.headerButton}
+            >
               <FontAwesome
                 name="angle-down"
                 size={32}
@@ -38,13 +41,7 @@ export default function Player() {
           ),
         }}
       />
-
-      <View
-        style={{
-          ...styles.container,
-          // backgroundColor: theme.colors.elevation.level2,
-        }}
-      >
+      <View style={styles.container}>
         <TrackInfo />
         <Progress />
         <PlayerControls />
@@ -54,6 +51,12 @@ export default function Player() {
 }
 
 const styles = StyleSheet.create({
+  headerButton: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
